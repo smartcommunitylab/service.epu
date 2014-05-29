@@ -17,6 +17,8 @@ import it.infotn.epu.DomandaWSModificaInput;
 import it.infotn.epu.DomandaWSModificaOutput;
 import it.infotn.epu.DomandaWSRegistraInput;
 import it.infotn.epu.DomandaWSRegistraOutput;
+import it.infotn.epu.DomandaWSRicercaInput;
+import it.infotn.epu.DomandaWSRicercaOutput;
 import it.infotn.epu.DomandaWSStampaInput;
 import it.infotn.epu.DomandaWSStampaOutput;
 import it.smartcampuslab.epu.model.ElenchiItem;
@@ -163,6 +165,42 @@ public class EPUController {
 			return null;
 		}
 	}
+	
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/RicercaPratiche")
+	public @ResponseBody
+	DomandaWSRicercaOutput ricercaPratiche(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestParam String idEnte, @RequestParam String userIdentity) {
+		try {
+			log.info("Get Pratiche");
+			
+			DomandaWSRicercaInput ricercaInput = new DomandaWSRicercaInput();
+			ricercaInput.setIdEnte(idEnte);
+			ricercaInput.setUserIdentity(userIdentity);
+			
+			
+			DomandaWSRicercaOutput result = null;
+			try {
+				result = getPort().ricerca(ricercaInput);
+			} catch (DomandaEpuFault_Exception e) {
+				String msg = e.getFaultInfo().getUserMessage();
+				log.error(msg);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+			} catch (Exception e) {
+				e.printStackTrace();
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "");
+				return null;
+			}
+
+			return result;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return null;
+		}
+	}	
+	
+	
 
 	@RequestMapping(method = RequestMethod.POST, value = "/AggiornaPratica")
 	public @ResponseBody
