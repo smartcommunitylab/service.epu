@@ -1,39 +1,40 @@
 package it.smartcampuslab.epu.storage;
 
 
-public class PagamentoInfo {
 
-	private Long id;
-	private String marcaDaBollo;
-	private String userIdentity;
+public class PagamentoInfo extends DomandaInfo {
 
-	public Long getId() {
-		return id;
+	protected String idPagamento;
+	protected String modalitaPagamento;
+	protected Double importoPagamento;
+
+	public String getIdPagamento() {
+		return idPagamento;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdPagamento(String marcaDaBollo) {
+		this.idPagamento = marcaDaBollo;
 	}
 
-	public String getMarcaDaBollo() {
-		return marcaDaBollo;
+	public String getModalitaPagamento() {
+		return modalitaPagamento;
 	}
 
-	public void setMarcaDaBollo(String marcaDaBollo) {
-		this.marcaDaBollo = marcaDaBollo;
+	public void setModalitaPagamento(String modalitaPagamento) {
+		this.modalitaPagamento = modalitaPagamento;
 	}
 
-	public String getUserIdentity() {
-		return userIdentity;
+	public Double getImportoPagamento() {
+		return importoPagamento;
 	}
 
-	public void setUserIdentity(String userIdentity) {
-		this.userIdentity = userIdentity;
+	public void setImportoPagamento(Double importoPagamento) {
+		this.importoPagamento = importoPagamento;
 	}
-	
+
 	@Override
 	public String toString() {
-		return id + "." + marcaDaBollo + "(" + userIdentity + ")";
+		return id + "." + idPagamento + "(" + userIdentity + ")";
 	}
 	
 
