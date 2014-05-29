@@ -1,874 +1,875 @@
-<definitions name='DomandaEPUService' targetNamespace='http://epu.infotn.it' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://epu.infotn.it' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
- <types>
-  <xs:schema targetNamespace='http://epu.infotn.it' version='1.0' xmlns:tns='http://epu.infotn.it' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
-   <xs:element name='DomandaEpuFault' type='tns:DomandaEpuFault'/>
-   <xs:complexType name='domandaWSCaricaInput'>
-    <xs:complexContent>
-     <xs:extension base='tns:utenteInfoInput'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='idDomanda' type='xs:long'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='utenteInfoInput'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='idEnte' type='xs:string'/>
-     <xs:element minOccurs='0' name='userIdentity' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='domandaWSCaricaOutput'>
-    <xs:complexContent>
-     <xs:extension base='tns:esitoOutput'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='domanda' type='tns:domandaType'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='esitoOutput'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='esito' type='tns:esito'/>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='segnalazione' nillable='true' type='tns:segnalazioneType'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='domandaType'>
-    <xs:complexContent>
-     <xs:extension base='tns:domandaBaseType'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='alloggioOccupato' type='tns:alloggioOccupatoType'/>
-       <xs:element minOccurs='0' name='ambitoTerritoriale1' type='tns:ambitoTerritorialeType'/>
-       <xs:element minOccurs='0' name='extracomunitariType' type='tns:domandaExtracomunitariType'/>
-       <xs:element minOccurs='0' name='nucleo' type='tns:nucleoFamiliareType'/>
-       <xs:element minOccurs='0' name='residenzaType' type='tns:domandaResidenzaType'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaBaseType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='consolidata' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='dataPresentazione' type='xs:dateTime'/>
-     <xs:element minOccurs='0' name='edizioneFinanziata' type='tns:edizioneFinanziataType'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:long'/>
-     <xs:element minOccurs='0' name='identificativo' type='xs:string'/>
-     <xs:element minOccurs='0' name='numeroCasuale' type='xs:long'/>
-     <xs:element minOccurs='0' name='punteggio' type='xs:double'/>
-     <xs:element minOccurs='0' name='statoDomanda' type='tns:statoDomanda'/>
-     <xs:element minOccurs='0' name='versione' type='xs:int'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='alloggioOccupatoType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='comuneAlloggio' type='xs:long'/>
-     <xs:element minOccurs='0' name='dataContratto' type='xs:dateTime'/>
-     <xs:element minOccurs='0' name='descrizioneComuneAlloggio' type='xs:string'/>
-     <xs:element minOccurs='0' name='idDomanda' type='xs:long'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:long'/>
-     <xs:element minOccurs='0' name='importoCanone' type='xs:double'/>
-     <xs:element minOccurs='0' name='indirizzoAlloggio' type='xs:string'/>
-     <xs:element minOccurs='0' name='numeroStanze' type='xs:int'/>
-     <xs:element minOccurs='0' name='superficieAlloggio' type='xs:double'/>
-     <xs:element minOccurs='0' name='tipoContratto' type='tns:contratto'/>
-     <xs:element minOccurs='0' name='versione' type='xs:int'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='ambitoTerritorialeType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='descrizione' type='xs:string'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='domandaExtracomunitariType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='lavoro' type='tns:lavoro'/>
-     <xs:element minOccurs='0' name='permesso' type='tns:permesso'/>
-     <xs:element minOccurs='0' name='ricevutaPermessoSoggiorno' type='xs:string'/>
-     <xs:element minOccurs='0' name='scadenzaPermessoSoggiorno' type='xs:dateTime'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='nucleoFamiliareType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='alloggioSbarrierato' type='xs:boolean'/>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='componente' nillable='true' type='tns:componenteType'/>
-     <xs:element minOccurs='0' name='componentiExtraIcef' type='xs:int'/>
-     <xs:element minOccurs='0' name='idDomanda' type='xs:long'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:long'/>
-     <xs:element minOccurs='0' name='indicatoreEconomico' type='tns:indicatoreEconomicoType'/>
-     <xs:element minOccurs='0' name='monoGenitore' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='numeroStanze' type='xs:int'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='componenteType'>
-    <xs:complexContent>
-     <xs:extension base='tns:componenteBaseType'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='persona' type='tns:personaType'/>
-       <xs:element minOccurs='0' name='variazioniComponente' type='tns:variazioneComponenteType'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='componenteBaseType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='idNucleoFamiliare' type='xs:long'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:long'/>
-     <xs:element minOccurs='0' name='parentela' type='tns:parentela'/>
-     <xs:element minOccurs='0' name='richiedente' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='statoCivile' type='tns:statoCivile'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='personaType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='codiceCliente' type='xs:string'/>
-     <xs:element minOccurs='0' name='codiceFiscale' type='xs:string'/>
-     <xs:element minOccurs='0' name='codiceOrigine' type='xs:string'/>
-     <xs:element minOccurs='0' name='cognome' type='xs:string'/>
-     <xs:element minOccurs='0' name='comuneNascita' type='xs:string'/>
-     <xs:element minOccurs='0' name='dataNascita' type='xs:dateTime'/>
-     <xs:element minOccurs='0' name='idComponente' type='xs:long'/>
-     <xs:element minOccurs='0' name='idComuneNascita' type='xs:long'/>
-     <xs:element minOccurs='0' name='idNazioneNascita' type='xs:long'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:long'/>
-     <xs:element minOccurs='0' name='nazioneNascita' type='xs:string'/>
-     <xs:element minOccurs='0' name='nome' type='xs:string'/>
-     <xs:element minOccurs='0' name='piva' type='xs:string'/>
-     <xs:element minOccurs='0' name='sesso' type='tns:sesso'/>
-     <xs:element minOccurs='0' name='sistemaOrigine' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='variazioneComponenteType'>
-    <xs:complexContent>
-     <xs:extension base='tns:variazioneComponenteModificareType'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='dataFine' type='xs:dateTime'/>
-       <xs:element minOccurs='0' name='decsrCittadinanza' type='xs:string'/>
-       <xs:element minOccurs='0' name='idCittadinanza' type='xs:long'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='variazioneComponenteModificareType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='anniLavoro' type='xs:int'/>
-     <xs:element minOccurs='0' name='anniResidenza' type='xs:int'/>
-     <xs:element minOccurs='0' name='anniResidenzaComune' type='xs:int'/>
-     <xs:element minOccurs='0' name='categoriaInvalidita' type='tns:categoriaInvalidita'/>
-     <xs:element minOccurs='0' name='donnaLavoratrice' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='flagResidenza' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='frazione' type='xs:string'/>
-     <xs:element minOccurs='0' name='fuoriAlloggio' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='gradoInvalidita' type='xs:int'/>
-     <xs:element minOccurs='0' name='idComponente' type='xs:long'/>
-     <xs:element minOccurs='0' name='idComuneResidenza' type='xs:long'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:long'/>
-     <xs:element minOccurs='0' name='indirizzoResidenza' type='xs:string'/>
-     <xs:element minOccurs='0' name='note' type='xs:string'/>
-     <xs:element minOccurs='0' name='numeroCivico' type='xs:string'/>
-     <xs:element minOccurs='0' name='ospite' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='pensionato' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='provinciaResidenza' type='xs:string'/>
-     <xs:element minOccurs='0' name='telefono' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='indicatoreEconomicoType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='annoReddito' type='xs:int'/>
-     <xs:element minOccurs='0' name='dataCalcoloICEF' type='xs:dateTime'/>
-     <xs:element minOccurs='0' name='dataFine' type='xs:dateTime'/>
-     <xs:element minOccurs='0' name='dataPresentazioneICEF' type='xs:dateTime'/>
-     <xs:element minOccurs='0' name='dataVerifica' type='xs:dateTime'/>
-     <xs:element minOccurs='0' name='esitoVerifica' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='ICEFAccesso' type='xs:double'/>
-     <xs:element minOccurs='0' name='ICEFContributo' type='xs:double'/>
-     <xs:element minOccurs='0' name='ICEFVerifica' type='xs:double'/>
-     <xs:element minOccurs='0' name='idNucleoFamiliare' type='xs:long'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:long'/>
-     <xs:element minOccurs='0' name='invalido75Perc' type='xs:int'/>
-     <xs:element minOccurs='0' name='numeroComponentiRedditoSignificativo' type='xs:int'/>
-     <xs:element minOccurs='0' name='numeroInvalidi' type='xs:int'/>
-     <xs:element minOccurs='0' name='pensionatiBiennio' type='xs:int'/>
-     <xs:element minOccurs='0' name='protocolloICEF' type='xs:string'/>
-     <xs:element minOccurs='0' name='redditoComplessivo' type='xs:double'/>
-     <xs:element minOccurs='0' name='sistemaOrigine' type='tns:sistemaOrigine'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='domandaResidenzaType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='alloggioAdeguato' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='cittadinanzaUE' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='numeroComponenti' type='xs:int'/>
-     <xs:element minOccurs='0' name='residenzaTN' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='tipoResidenza' type='tns:tipoResidenza'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='edizioneFinanziataType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='categoria' type='tns:categoria'/>
-     <xs:element minOccurs='0' name='edizione' type='tns:edizioneType'/>
-     <xs:element minOccurs='0' name='ente' type='tns:enteType'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='edizioneType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='annoPianoFinanziario' type='xs:long'/>
-     <xs:element minOccurs='0' name='annoReddito' type='xs:long'/>
-     <xs:element minOccurs='0' name='dataApertura' type='xs:dateTime'/>
-     <xs:element minOccurs='0' name='dataChiusura' type='xs:dateTime'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:long'/>
-     <xs:element minOccurs='0' name='strumento' type='tns:strumentoInterventoType'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='strumentoInterventoType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='descrizione' type='xs:string'/>
-     <xs:element minOccurs='0' name='idobj' type='xs:long'/>
-     <xs:element minOccurs='0' name='tipoStrumento' type='tns:tipoStrumento'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='enteType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='descrizione' type='xs:string'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='segnalazioneType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='code' type='xs:string'/>
-     <xs:element minOccurs='0' name='descrizione' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='DomandaEpuFault'>
-    <xs:sequence>
-     <xs:element name='errorCode' type='xs:int'/>
-     <xs:element minOccurs='0' name='message' type='xs:string'/>
-     <xs:element minOccurs='0' name='stack' type='xs:string'/>
-     <xs:element minOccurs='0' name='userMessage' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='domandaWSRicercaInput'>
-    <xs:complexContent>
-     <xs:extension base='tns:utenteInfoInput'>
-      <xs:sequence/>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSRicercaOutput'>
-    <xs:complexContent>
-     <xs:extension base='tns:esitoOutput'>
-      <xs:sequence>
-       <xs:element maxOccurs='unbounded' minOccurs='0' name='domanda' nillable='true' type='tns:domandaRicercaType'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaRicercaType'>
-    <xs:complexContent>
-     <xs:extension base='tns:domandaBaseType'>
-      <xs:sequence/>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSModificaInput'>
-    <xs:complexContent>
-     <xs:extension base='tns:utenteInfoInput'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='domandaType' type='tns:domandaModificareType'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaModificareType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='alloggioOccupatoType' type='tns:alloggioOccupatoType'/>
-     <xs:element minOccurs='0' name='ambitoTerritoriale1' type='xs:long'/>
-     <xs:element minOccurs='0' name='extracomunitariType' type='tns:domandaExtracomunitariType'/>
-     <xs:element minOccurs='0' name='idDomanda' type='xs:long'/>
-     <xs:element minOccurs='0' name='nucleoFamiliareComponentiModificareType' type='tns:nucleoFamiliareComponentiModificareType'/>
-     <xs:element minOccurs='0' name='nucleoFamiliareModificareType' type='tns:nucleoFamiliareModificareType'/>
-     <xs:element minOccurs='0' name='parentelaStatoCivileModificareType' type='tns:parentelaStatoCivileModificareType'/>
-     <xs:element minOccurs='0' name='residenzaType' type='tns:domandaResidenzaType'/>
-     <xs:element minOccurs='0' name='versione' type='xs:int'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='nucleoFamiliareComponentiModificareType'>
-    <xs:sequence>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='componenteModificareType' nillable='true' type='tns:componenteModificareType'/>
-     <xs:element minOccurs='0' name='idDomanda' type='xs:long'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:long'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='componenteModificareType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='idNucleoFamiliare' type='xs:long'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:long'/>
-     <xs:element minOccurs='0' name='variazioniComponenteModificare' type='tns:variazioneComponenteModificareType'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='nucleoFamiliareModificareType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='alloggioSbarrierato' type='xs:boolean'/>
-     <xs:element minOccurs='0' name='componentiExtraIcef' type='xs:int'/>
-     <xs:element minOccurs='0' name='idDomanda' type='xs:long'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:long'/>
-     <xs:element minOccurs='0' name='numeroStanze' type='xs:int'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='parentelaStatoCivileModificareType'>
-    <xs:sequence>
-     <xs:element maxOccurs='unbounded' minOccurs='0' name='componenteModificareType' nillable='true' type='tns:componenteParentelaStatoCivileModificareType'/>
-     <xs:element minOccurs='0' name='idDomanda' type='xs:long'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:long'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='componenteParentelaStatoCivileModificareType'>
-    <xs:complexContent>
-     <xs:extension base='tns:componenteBaseType'>
-      <xs:sequence/>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSModificaOutput'>
-    <xs:complexContent>
-     <xs:extension base='tns:esitoOutput'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='domanda' type='tns:domandaType'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSConsolidaInput'>
-    <xs:complexContent>
-     <xs:extension base='tns:utenteInfoInput'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='idDomanda' type='xs:long'/>
-       <xs:element minOccurs='0' name='versione' type='xs:int'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSConsolidaOutput'>
-    <xs:complexContent>
-     <xs:extension base='tns:esitoOutput'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='domanda' type='tns:domandaType'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSAmbitiTerritorialiInput'>
-    <xs:complexContent>
-     <xs:extension base='tns:utenteInfoInput'>
-      <xs:sequence/>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSAmbitiTerritorialiOutput'>
-    <xs:complexContent>
-     <xs:extension base='tns:esitoOutput'>
-      <xs:sequence>
-       <xs:element maxOccurs='unbounded' minOccurs='0' name='ambitoTerritoriale' nillable='true' type='tns:ambitoTerritorialeType'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSEntiInput'/>
-   <xs:complexType name='domandaWSEntiOutput'>
-    <xs:complexContent>
-     <xs:extension base='tns:esitoOutput'>
-      <xs:sequence>
-       <xs:element maxOccurs='unbounded' minOccurs='0' name='enti' nillable='true' type='tns:enteType'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSEdizioniFinanziateInput'>
-    <xs:complexContent>
-     <xs:extension base='tns:utenteInfoInput'>
-      <xs:sequence/>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSEdizioniFinanziateOutput'>
-    <xs:complexContent>
-     <xs:extension base='tns:esitoOutput'>
-      <xs:sequence>
-       <xs:element maxOccurs='unbounded' minOccurs='0' name='edizioneFinanziata' nillable='true' type='tns:edizioneFinanziataType'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSComuniInput'>
-    <xs:complexContent>
-     <xs:extension base='tns:utenteInfoInput'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='dataRiferimento' type='xs:dateTime'/>
-       <xs:element minOccurs='0' name='descrizioneComune' type='xs:string'/>
-       <xs:element minOccurs='0' name='tipoGerarchia' type='tns:tipoGerarchia'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSComuniOutput'>
-    <xs:complexContent>
-     <xs:extension base='tns:esitoOutput'>
-      <xs:sequence>
-       <xs:element maxOccurs='unbounded' minOccurs='0' name='comune' nillable='true' type='tns:comuneType'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='comuneType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='descrizione' type='xs:string'/>
-     <xs:element minOccurs='0' name='idObj' type='xs:string'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='domandaWSRegistraInput'>
-    <xs:complexContent>
-     <xs:extension base='tns:utenteInfoInput'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='domandaType' type='tns:domandaRegistrareType'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaRegistrareType'>
-    <xs:sequence>
-     <xs:element minOccurs='0' name='extracomunitariType' type='tns:domandaExtracomunitariType'/>
-     <xs:element minOccurs='0' name='idEdizioneFinanziata' type='xs:long'/>
-     <xs:element minOccurs='0' name='numeroDomandaICEF' type='xs:string'/>
-     <xs:element minOccurs='0' name='residenzaType' type='tns:domandaResidenzaType'/>
-    </xs:sequence>
-   </xs:complexType>
-   <xs:complexType name='domandaWSRegistraOutput'>
-    <xs:complexContent>
-     <xs:extension base='tns:esitoOutput'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='domanda' type='tns:domandaType'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSEliminaInput'>
-    <xs:complexContent>
-     <xs:extension base='tns:utenteInfoInput'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='idDomanda' type='xs:long'/>
-       <xs:element minOccurs='0' name='versione' type='xs:int'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSEliminaOutput'>
-    <xs:complexContent>
-     <xs:extension base='tns:esitoOutput'>
-      <xs:sequence/>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSStampaInput'>
-    <xs:complexContent>
-     <xs:extension base='tns:utenteInfoInput'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='idDomanda' type='xs:long'/>
-       <xs:element minOccurs='0' name='tipoStampa' type='tns:tipoStampa'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:complexType name='domandaWSStampaOutput'>
-    <xs:complexContent>
-     <xs:extension base='tns:esitoOutput'>
-      <xs:sequence>
-       <xs:element minOccurs='0' name='stampa' type='xs:base64Binary'/>
-      </xs:sequence>
-     </xs:extension>
-    </xs:complexContent>
-   </xs:complexType>
-   <xs:simpleType name='contratto'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='CANONE_LIBERO'/>
-     <xs:enumeration value='CANONE_CONCORDATO'/>
-     <xs:enumeration value='NESSUNO'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='lavoro'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='collocamento'/>
-     <xs:enumeration value='lavoro'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='permesso'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='soggiorno'/>
-     <xs:enumeration value='ce'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='sesso'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='Feminile'/>
-     <xs:enumeration value='Maschile'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='categoriaInvalidita'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='CategoriaInvalida4'/>
-     <xs:enumeration value='CategoriaInvalida3'/>
-     <xs:enumeration value='CategoriaInvalida2'/>
-     <xs:enumeration value='CategoriaInvalida1'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='parentela'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='ALTRO_CONVIVENTE'/>
-     <xs:enumeration value='PARENTE_34_GRADO'/>
-     <xs:enumeration value='PARENTE_2_GRADO'/>
-     <xs:enumeration value='PARENTE_1_GRADO'/>
-     <xs:enumeration value='FIGLIO'/>
-     <xs:enumeration value='CONVIVENTE_MORE_UXORIO'/>
-     <xs:enumeration value='CONIUGE_NON_SEPARATO'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='statoCivile'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='GIA_CONIUGATO_A'/>
-     <xs:enumeration value='VEDOVO_A'/>
-     <xs:enumeration value='CONIUGATO_A'/>
-     <xs:enumeration value='NUBILE_CELIBE'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='sistemaOrigine'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='ICEF'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='tipoResidenza'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='ALLOGGIO_INIDONEO'/>
-     <xs:enumeration value='ALLOGGIO_IMPROPRIAMENTE_ADIBITO'/>
-     <xs:enumeration value='ALLOGGIO_PRIVO_SERVIZI'/>
-     <xs:enumeration value='NORMALE'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='categoria'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='PATTIFUTURAVENDITA'/>
-     <xs:enumeration value='FORZEORDINE'/>
-     <xs:enumeration value='INQUILINIITEA'/>
-     <xs:enumeration value='EXTRACOMUNITARI'/>
-     <xs:enumeration value='COMUNITARI'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='tipoStrumento'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='ALL_PRIVATO_DISAGIO'/>
-     <xs:enumeration value='ALL_PUBBLICO_DISAGIO'/>
-     <xs:enumeration value='CANONE_MODERATO'/>
-     <xs:enumeration value='LOCAZIONE_ALL_PUBBLICO'/>
-     <xs:enumeration value='CONTRIBUTO_ALL_PRIVATO'/>
-     <xs:enumeration value='GESTIONE_ALLOGGI'/>
-     <xs:enumeration value='INQUILINI_ITEA'/>
-     <xs:enumeration value='CONTRIBUTO_INTEGRATIVO_DISAGIO'/>
-     <xs:enumeration value='LOCAZIONE_ALLOGGIO'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='statoDomanda'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='CHIUSA'/>
-     <xs:enumeration value='AMMESSA'/>
-     <xs:enumeration value='NON_IDONEA'/>
-     <xs:enumeration value='RITIRATA'/>
-     <xs:enumeration value='IDONEA'/>
-     <xs:enumeration value='PROVVISORIA'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='esito'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='KO'/>
-     <xs:enumeration value='OK'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='tipoGerarchia'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='H_NAZ_PRO_COMP_COM_FRA'/>
-     <xs:enumeration value='H_NAZ_PRO_COM_FRA'/>
-    </xs:restriction>
-   </xs:simpleType>
-   <xs:simpleType name='tipoStampa'>
-    <xs:restriction base='xs:string'>
-     <xs:enumeration value='SCHEDA_DOMANDA_CON_PUNTEGGIO'/>
-     <xs:enumeration value='SCHEDA_PUNTEGGIO'/>
-     <xs:enumeration value='SCHEDA_DOMANDA'/>
-    </xs:restriction>
-   </xs:simpleType>
-  </xs:schema>
- </types>
- <message name='DomandaEPU_caricaResponse'>
-  <part name='return' type='tns:domandaWSCaricaOutput'></part>
- </message>
- <message name='DomandaEPU_consolida'>
-  <part name='arg0' type='tns:domandaWSConsolidaInput'></part>
- </message>
- <message name='DomandaEPU_registra'>
-  <part name='arg0' type='tns:domandaWSRegistraInput'></part>
- </message>
- <message name='DomandaEPU_carica'>
-  <part name='arg0' type='tns:domandaWSCaricaInput'></part>
- </message>
- <message name='DomandaEPU_elencoAmbitiTerritorialiResponse'>
-  <part name='return' type='tns:domandaWSAmbitiTerritorialiOutput'></part>
- </message>
- <message name='DomandaEPU_consolidaResponse'>
-  <part name='return' type='tns:domandaWSConsolidaOutput'></part>
- </message>
- <message name='DomandaEPU_elencoEnti'>
-  <part name='arg0' type='tns:domandaWSEntiInput'></part>
- </message>
- <message name='DomandaEPU_stampaResponse'>
-  <part name='return' type='tns:domandaWSStampaOutput'></part>
- </message>
- <message name='DomandaEPU_modificaResponse'>
-  <part name='return' type='tns:domandaWSModificaOutput'></part>
- </message>
- <message name='DomandaEPU_elencoEdizioniFinanziateResponse'>
-  <part name='return' type='tns:domandaWSEdizioniFinanziateOutput'></part>
- </message>
- <message name='DomandaEPU_elencoEdizioniFinanziate'>
-  <part name='arg0' type='tns:domandaWSEdizioniFinanziateInput'></part>
- </message>
- <message name='DomandaEPU_ricercaResponse'>
-  <part name='return' type='tns:domandaWSRicercaOutput'></part>
- </message>
- <message name='DomandaEPU_elencoComuniResponse'>
-  <part name='return' type='tns:domandaWSComuniOutput'></part>
- </message>
- <message name='DomandaEPU_stampa'>
-  <part name='arg0' type='tns:domandaWSStampaInput'></part>
- </message>
- <message name='DomandaEPU_registraResponse'>
-  <part name='return' type='tns:domandaWSRegistraOutput'></part>
- </message>
- <message name='DomandaEPU_modifica'>
-  <part name='arg0' type='tns:domandaWSModificaInput'></part>
- </message>
- <message name='DomandaEpuFault'>
-  <part element='tns:DomandaEpuFault' name='DomandaEpuFault'></part>
- </message>
- <message name='DomandaEPU_elencoComuni'>
-  <part name='arg0' type='tns:domandaWSComuniInput'></part>
- </message>
- <message name='DomandaEPU_elencoEntiResponse'>
-  <part name='return' type='tns:domandaWSEntiOutput'></part>
- </message>
- <message name='DomandaEPU_ricerca'>
-  <part name='arg0' type='tns:domandaWSRicercaInput'></part>
- </message>
- <message name='DomandaEPU_eliminaResponse'>
-  <part name='return' type='tns:domandaWSEliminaOutput'></part>
- </message>
- <message name='DomandaEPU_elimina'>
-  <part name='arg0' type='tns:domandaWSEliminaInput'></part>
- </message>
- <message name='DomandaEPU_elencoAmbitiTerritoriali'>
-  <part name='arg0' type='tns:domandaWSAmbitiTerritorialiInput'></part>
- </message>
- <portType name='DomandaEPU'>
-  <operation name='carica' parameterOrder='arg0'>
-   <input message='tns:DomandaEPU_carica'></input>
-   <output message='tns:DomandaEPU_caricaResponse'></output>
-   <fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
-  </operation>
-  <operation name='consolida' parameterOrder='arg0'>
-   <input message='tns:DomandaEPU_consolida'></input>
-   <output message='tns:DomandaEPU_consolidaResponse'></output>
-   <fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
-  </operation>
-  <operation name='elencoAmbitiTerritoriali' parameterOrder='arg0'>
-   <input message='tns:DomandaEPU_elencoAmbitiTerritoriali'></input>
-   <output message='tns:DomandaEPU_elencoAmbitiTerritorialiResponse'></output>
-   <fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
-  </operation>
-  <operation name='elencoComuni' parameterOrder='arg0'>
-   <input message='tns:DomandaEPU_elencoComuni'></input>
-   <output message='tns:DomandaEPU_elencoComuniResponse'></output>
-   <fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
-  </operation>
-  <operation name='elencoEdizioniFinanziate' parameterOrder='arg0'>
-   <input message='tns:DomandaEPU_elencoEdizioniFinanziate'></input>
-   <output message='tns:DomandaEPU_elencoEdizioniFinanziateResponse'></output>
-   <fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
-  </operation>
-  <operation name='elencoEnti' parameterOrder='arg0'>
-   <input message='tns:DomandaEPU_elencoEnti'></input>
-   <output message='tns:DomandaEPU_elencoEntiResponse'></output>
-   <fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
-  </operation>
-  <operation name='elimina' parameterOrder='arg0'>
-   <input message='tns:DomandaEPU_elimina'></input>
-   <output message='tns:DomandaEPU_eliminaResponse'></output>
-   <fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
-  </operation>
-  <operation name='modifica' parameterOrder='arg0'>
-   <input message='tns:DomandaEPU_modifica'></input>
-   <output message='tns:DomandaEPU_modificaResponse'></output>
-   <fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
-  </operation>
-  <operation name='registra' parameterOrder='arg0'>
-   <input message='tns:DomandaEPU_registra'></input>
-   <output message='tns:DomandaEPU_registraResponse'></output>
-   <fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
-  </operation>
-  <operation name='ricerca' parameterOrder='arg0'>
-   <input message='tns:DomandaEPU_ricerca'></input>
-   <output message='tns:DomandaEPU_ricercaResponse'></output>
-   <fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
-  </operation>
-  <operation name='stampa' parameterOrder='arg0'>
-   <input message='tns:DomandaEPU_stampa'></input>
-   <output message='tns:DomandaEPU_stampaResponse'></output>
-   <fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
-  </operation>
- </portType>
- <binding name='DomandaEPUBinding' type='tns:DomandaEPU'>
-  <soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http'/>
-  <operation name='carica'>
-   <soap:operation soapAction=''/>
-   <input>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </output>
-   <fault name='DomandaEpuFault'>
-    <soap:fault name='DomandaEpuFault' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='consolida'>
-   <soap:operation soapAction=''/>
-   <input>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </output>
-   <fault name='DomandaEpuFault'>
-    <soap:fault name='DomandaEpuFault' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='elencoAmbitiTerritoriali'>
-   <soap:operation soapAction=''/>
-   <input>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </output>
-   <fault name='DomandaEpuFault'>
-    <soap:fault name='DomandaEpuFault' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='elencoComuni'>
-   <soap:operation soapAction=''/>
-   <input>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </output>
-   <fault name='DomandaEpuFault'>
-    <soap:fault name='DomandaEpuFault' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='elencoEdizioniFinanziate'>
-   <soap:operation soapAction=''/>
-   <input>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </output>
-   <fault name='DomandaEpuFault'>
-    <soap:fault name='DomandaEpuFault' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='elencoEnti'>
-   <soap:operation soapAction=''/>
-   <input>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </output>
-   <fault name='DomandaEpuFault'>
-    <soap:fault name='DomandaEpuFault' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='elimina'>
-   <soap:operation soapAction=''/>
-   <input>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </output>
-   <fault name='DomandaEpuFault'>
-    <soap:fault name='DomandaEpuFault' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='modifica'>
-   <soap:operation soapAction=''/>
-   <input>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </output>
-   <fault name='DomandaEpuFault'>
-    <soap:fault name='DomandaEpuFault' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='registra'>
-   <soap:operation soapAction=''/>
-   <input>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </output>
-   <fault name='DomandaEpuFault'>
-    <soap:fault name='DomandaEpuFault' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='ricerca'>
-   <soap:operation soapAction=''/>
-   <input>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </output>
-   <fault name='DomandaEpuFault'>
-    <soap:fault name='DomandaEpuFault' use='literal'/>
-   </fault>
-  </operation>
-  <operation name='stampa'>
-   <soap:operation soapAction=''/>
-   <input>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </input>
-   <output>
-    <soap:body namespace='http://epu.infotn.it' use='literal'/>
-   </output>
-   <fault name='DomandaEpuFault'>
-    <soap:fault name='DomandaEpuFault' use='literal'/>
-   </fault>
-  </operation>
- </binding>
- <service name='DomandaEPUService'>
-  <port binding='tns:DomandaEPUBinding' name='DomandaEPUPort'>
-   <soap:address location='http://172.20.0.97:11180/epu/DomandaEPUService'/>
-  </port>
- </service>
+<definitions name='DomandaEPUService' targetNamespace='http://epu.infotn.it' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/'
+	xmlns:tns='http://epu.infotn.it' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+	<types>
+		<xs:schema targetNamespace='http://epu.infotn.it' version='1.0' xmlns:tns='http://epu.infotn.it' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+			<xs:element name='DomandaEpuFault' type='tns:DomandaEpuFault' />
+			<xs:complexType name='domandaWSCaricaInput'>
+				<xs:complexContent>
+					<xs:extension base='tns:utenteInfoInput'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='idDomanda' type='xs:long' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='utenteInfoInput'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='idEnte' type='xs:string' />
+					<xs:element minOccurs='0' name='userIdentity' type='xs:string' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='domandaWSCaricaOutput'>
+				<xs:complexContent>
+					<xs:extension base='tns:esitoOutput'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='domanda' type='tns:domandaType' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='esitoOutput'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='esito' type='tns:esito' />
+					<xs:element maxOccurs='unbounded' minOccurs='0' name='segnalazione' nillable='true' type='tns:segnalazioneType' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='domandaType'>
+				<xs:complexContent>
+					<xs:extension base='tns:domandaBaseType'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='alloggioOccupato' type='tns:alloggioOccupatoType' />
+							<xs:element minOccurs='0' name='ambitoTerritoriale1' type='tns:ambitoTerritorialeType' />
+							<xs:element minOccurs='0' name='extracomunitariType' type='tns:domandaExtracomunitariType' />
+							<xs:element minOccurs='0' name='nucleo' type='tns:nucleoFamiliareType' />
+							<xs:element minOccurs='0' name='residenzaType' type='tns:domandaResidenzaType' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaBaseType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='consolidata' type='xs:boolean' />
+					<xs:element minOccurs='0' name='dataPresentazione' type='xs:dateTime' />
+					<xs:element minOccurs='0' name='edizioneFinanziata' type='tns:edizioneFinanziataType' />
+					<xs:element minOccurs='0' name='idObj' type='xs:long' />
+					<xs:element minOccurs='0' name='identificativo' type='xs:string' />
+					<xs:element minOccurs='0' name='numeroCasuale' type='xs:long' />
+					<xs:element minOccurs='0' name='punteggio' type='xs:double' />
+					<xs:element minOccurs='0' name='statoDomanda' type='tns:statoDomanda' />
+					<xs:element minOccurs='0' name='versione' type='xs:int' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='alloggioOccupatoType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='comuneAlloggio' type='xs:long' />
+					<xs:element minOccurs='0' name='dataContratto' type='xs:dateTime' />
+					<xs:element minOccurs='0' name='descrizioneComuneAlloggio' type='xs:string' />
+					<xs:element minOccurs='0' name='idDomanda' type='xs:long' />
+					<xs:element minOccurs='0' name='idObj' type='xs:long' />
+					<xs:element minOccurs='0' name='importoCanone' type='xs:double' />
+					<xs:element minOccurs='0' name='indirizzoAlloggio' type='xs:string' />
+					<xs:element minOccurs='0' name='numeroStanze' type='xs:int' />
+					<xs:element minOccurs='0' name='superficieAlloggio' type='xs:double' />
+					<xs:element minOccurs='0' name='tipoContratto' type='tns:contratto' />
+					<xs:element minOccurs='0' name='versione' type='xs:int' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='ambitoTerritorialeType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='descrizione' type='xs:string' />
+					<xs:element minOccurs='0' name='idObj' type='xs:string' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='domandaExtracomunitariType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='lavoro' type='tns:lavoro' />
+					<xs:element minOccurs='0' name='permesso' type='tns:permesso' />
+					<xs:element minOccurs='0' name='ricevutaPermessoSoggiorno' type='xs:string' />
+					<xs:element minOccurs='0' name='scadenzaPermessoSoggiorno' type='xs:dateTime' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='nucleoFamiliareType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='alloggioSbarrierato' type='xs:boolean' />
+					<xs:element maxOccurs='unbounded' minOccurs='0' name='componente' nillable='true' type='tns:componenteType' />
+					<xs:element minOccurs='0' name='componentiExtraIcef' type='xs:int' />
+					<xs:element minOccurs='0' name='idDomanda' type='xs:long' />
+					<xs:element minOccurs='0' name='idObj' type='xs:long' />
+					<xs:element minOccurs='0' name='indicatoreEconomico' type='tns:indicatoreEconomicoType' />
+					<xs:element minOccurs='0' name='monoGenitore' type='xs:boolean' />
+					<xs:element minOccurs='0' name='numeroStanze' type='xs:int' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='componenteType'>
+				<xs:complexContent>
+					<xs:extension base='tns:componenteBaseType'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='persona' type='tns:personaType' />
+							<xs:element minOccurs='0' name='variazioniComponente' type='tns:variazioneComponenteType' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='componenteBaseType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='idNucleoFamiliare' type='xs:long' />
+					<xs:element minOccurs='0' name='idObj' type='xs:long' />
+					<xs:element minOccurs='0' name='parentela' type='tns:parentela' />
+					<xs:element minOccurs='0' name='richiedente' type='xs:boolean' />
+					<xs:element minOccurs='0' name='statoCivile' type='tns:statoCivile' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='personaType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='codiceCliente' type='xs:string' />
+					<xs:element minOccurs='0' name='codiceFiscale' type='xs:string' />
+					<xs:element minOccurs='0' name='codiceOrigine' type='xs:string' />
+					<xs:element minOccurs='0' name='cognome' type='xs:string' />
+					<xs:element minOccurs='0' name='comuneNascita' type='xs:string' />
+					<xs:element minOccurs='0' name='dataNascita' type='xs:dateTime' />
+					<xs:element minOccurs='0' name='idComponente' type='xs:long' />
+					<xs:element minOccurs='0' name='idComuneNascita' type='xs:long' />
+					<xs:element minOccurs='0' name='idNazioneNascita' type='xs:long' />
+					<xs:element minOccurs='0' name='idObj' type='xs:long' />
+					<xs:element minOccurs='0' name='nazioneNascita' type='xs:string' />
+					<xs:element minOccurs='0' name='nome' type='xs:string' />
+					<xs:element minOccurs='0' name='piva' type='xs:string' />
+					<xs:element minOccurs='0' name='sesso' type='tns:sesso' />
+					<xs:element minOccurs='0' name='sistemaOrigine' type='xs:string' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='variazioneComponenteType'>
+				<xs:complexContent>
+					<xs:extension base='tns:variazioneComponenteModificareType'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='dataFine' type='xs:dateTime' />
+							<xs:element minOccurs='0' name='decsrCittadinanza' type='xs:string' />
+							<xs:element minOccurs='0' name='idCittadinanza' type='xs:long' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='variazioneComponenteModificareType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='anniLavoro' type='xs:int' />
+					<xs:element minOccurs='0' name='anniResidenza' type='xs:int' />
+					<xs:element minOccurs='0' name='anniResidenzaComune' type='xs:int' />
+					<xs:element minOccurs='0' name='categoriaInvalidita' type='tns:categoriaInvalidita' />
+					<xs:element minOccurs='0' name='donnaLavoratrice' type='xs:boolean' />
+					<xs:element minOccurs='0' name='flagResidenza' type='xs:boolean' />
+					<xs:element minOccurs='0' name='frazione' type='xs:string' />
+					<xs:element minOccurs='0' name='fuoriAlloggio' type='xs:boolean' />
+					<xs:element minOccurs='0' name='gradoInvalidita' type='xs:int' />
+					<xs:element minOccurs='0' name='idComponente' type='xs:long' />
+					<xs:element minOccurs='0' name='idComuneResidenza' type='xs:long' />
+					<xs:element minOccurs='0' name='idObj' type='xs:long' />
+					<xs:element minOccurs='0' name='indirizzoResidenza' type='xs:string' />
+					<xs:element minOccurs='0' name='note' type='xs:string' />
+					<xs:element minOccurs='0' name='numeroCivico' type='xs:string' />
+					<xs:element minOccurs='0' name='ospite' type='xs:boolean' />
+					<xs:element minOccurs='0' name='pensionato' type='xs:boolean' />
+					<xs:element minOccurs='0' name='provinciaResidenza' type='xs:string' />
+					<xs:element minOccurs='0' name='telefono' type='xs:string' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='indicatoreEconomicoType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='annoReddito' type='xs:int' />
+					<xs:element minOccurs='0' name='dataCalcoloICEF' type='xs:dateTime' />
+					<xs:element minOccurs='0' name='dataFine' type='xs:dateTime' />
+					<xs:element minOccurs='0' name='dataPresentazioneICEF' type='xs:dateTime' />
+					<xs:element minOccurs='0' name='dataVerifica' type='xs:dateTime' />
+					<xs:element minOccurs='0' name='esitoVerifica' type='xs:boolean' />
+					<xs:element minOccurs='0' name='ICEFAccesso' type='xs:double' />
+					<xs:element minOccurs='0' name='ICEFContributo' type='xs:double' />
+					<xs:element minOccurs='0' name='ICEFVerifica' type='xs:double' />
+					<xs:element minOccurs='0' name='idNucleoFamiliare' type='xs:long' />
+					<xs:element minOccurs='0' name='idObj' type='xs:long' />
+					<xs:element minOccurs='0' name='invalido75Perc' type='xs:int' />
+					<xs:element minOccurs='0' name='numeroComponentiRedditoSignificativo' type='xs:int' />
+					<xs:element minOccurs='0' name='numeroInvalidi' type='xs:int' />
+					<xs:element minOccurs='0' name='pensionatiBiennio' type='xs:int' />
+					<xs:element minOccurs='0' name='protocolloICEF' type='xs:string' />
+					<xs:element minOccurs='0' name='redditoComplessivo' type='xs:double' />
+					<xs:element minOccurs='0' name='sistemaOrigine' type='tns:sistemaOrigine' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='domandaResidenzaType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='alloggioAdeguato' type='xs:boolean' />
+					<xs:element minOccurs='0' name='cittadinanzaUE' type='xs:boolean' />
+					<xs:element minOccurs='0' name='numeroComponenti' type='xs:int' />
+					<xs:element minOccurs='0' name='residenzaTN' type='xs:boolean' />
+					<xs:element minOccurs='0' name='tipoResidenza' type='tns:tipoResidenza' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='edizioneFinanziataType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='categoria' type='tns:categoria' />
+					<xs:element minOccurs='0' name='edizione' type='tns:edizioneType' />
+					<xs:element minOccurs='0' name='ente' type='tns:enteType' />
+					<xs:element minOccurs='0' name='idObj' type='xs:string' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='edizioneType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='annoPianoFinanziario' type='xs:long' />
+					<xs:element minOccurs='0' name='annoReddito' type='xs:long' />
+					<xs:element minOccurs='0' name='dataApertura' type='xs:dateTime' />
+					<xs:element minOccurs='0' name='dataChiusura' type='xs:dateTime' />
+					<xs:element minOccurs='0' name='idObj' type='xs:long' />
+					<xs:element minOccurs='0' name='strumento' type='tns:strumentoInterventoType' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='strumentoInterventoType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='descrizione' type='xs:string' />
+					<xs:element minOccurs='0' name='idobj' type='xs:long' />
+					<xs:element minOccurs='0' name='tipoStrumento' type='tns:tipoStrumento' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='enteType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='descrizione' type='xs:string' />
+					<xs:element minOccurs='0' name='idObj' type='xs:string' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='segnalazioneType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='code' type='xs:string' />
+					<xs:element minOccurs='0' name='descrizione' type='xs:string' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='DomandaEpuFault'>
+				<xs:sequence>
+					<xs:element name='errorCode' type='xs:int' />
+					<xs:element minOccurs='0' name='message' type='xs:string' />
+					<xs:element minOccurs='0' name='stack' type='xs:string' />
+					<xs:element minOccurs='0' name='userMessage' type='xs:string' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='domandaWSRicercaInput'>
+				<xs:complexContent>
+					<xs:extension base='tns:utenteInfoInput'>
+						<xs:sequence />
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSRicercaOutput'>
+				<xs:complexContent>
+					<xs:extension base='tns:esitoOutput'>
+						<xs:sequence>
+							<xs:element maxOccurs='unbounded' minOccurs='0' name='domanda' nillable='true' type='tns:domandaRicercaType' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaRicercaType'>
+				<xs:complexContent>
+					<xs:extension base='tns:domandaBaseType'>
+						<xs:sequence />
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSModificaInput'>
+				<xs:complexContent>
+					<xs:extension base='tns:utenteInfoInput'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='domandaType' type='tns:domandaModificareType' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaModificareType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='alloggioOccupatoType' type='tns:alloggioOccupatoType' />
+					<xs:element minOccurs='0' name='ambitoTerritoriale1' type='xs:long' />
+					<xs:element minOccurs='0' name='extracomunitariType' type='tns:domandaExtracomunitariType' />
+					<xs:element minOccurs='0' name='idDomanda' type='xs:long' />
+					<xs:element minOccurs='0' name='nucleoFamiliareComponentiModificareType' type='tns:nucleoFamiliareComponentiModificareType' />
+					<xs:element minOccurs='0' name='nucleoFamiliareModificareType' type='tns:nucleoFamiliareModificareType' />
+					<xs:element minOccurs='0' name='parentelaStatoCivileModificareType' type='tns:parentelaStatoCivileModificareType' />
+					<xs:element minOccurs='0' name='residenzaType' type='tns:domandaResidenzaType' />
+					<xs:element minOccurs='0' name='versione' type='xs:int' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='nucleoFamiliareComponentiModificareType'>
+				<xs:sequence>
+					<xs:element maxOccurs='unbounded' minOccurs='0' name='componenteModificareType' nillable='true' type='tns:componenteModificareType' />
+					<xs:element minOccurs='0' name='idDomanda' type='xs:long' />
+					<xs:element minOccurs='0' name='idObj' type='xs:long' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='componenteModificareType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='idNucleoFamiliare' type='xs:long' />
+					<xs:element minOccurs='0' name='idObj' type='xs:long' />
+					<xs:element minOccurs='0' name='variazioniComponenteModificare' type='tns:variazioneComponenteModificareType' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='nucleoFamiliareModificareType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='alloggioSbarrierato' type='xs:boolean' />
+					<xs:element minOccurs='0' name='componentiExtraIcef' type='xs:int' />
+					<xs:element minOccurs='0' name='idDomanda' type='xs:long' />
+					<xs:element minOccurs='0' name='idObj' type='xs:long' />
+					<xs:element minOccurs='0' name='numeroStanze' type='xs:int' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='parentelaStatoCivileModificareType'>
+				<xs:sequence>
+					<xs:element maxOccurs='unbounded' minOccurs='0' name='componenteModificareType' nillable='true' type='tns:componenteParentelaStatoCivileModificareType' />
+					<xs:element minOccurs='0' name='idDomanda' type='xs:long' />
+					<xs:element minOccurs='0' name='idObj' type='xs:long' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='componenteParentelaStatoCivileModificareType'>
+				<xs:complexContent>
+					<xs:extension base='tns:componenteBaseType'>
+						<xs:sequence />
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSModificaOutput'>
+				<xs:complexContent>
+					<xs:extension base='tns:esitoOutput'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='domanda' type='tns:domandaType' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSConsolidaInput'>
+				<xs:complexContent>
+					<xs:extension base='tns:utenteInfoInput'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='idDomanda' type='xs:long' />
+							<xs:element minOccurs='0' name='versione' type='xs:int' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSConsolidaOutput'>
+				<xs:complexContent>
+					<xs:extension base='tns:esitoOutput'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='domanda' type='tns:domandaType' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSAmbitiTerritorialiInput'>
+				<xs:complexContent>
+					<xs:extension base='tns:utenteInfoInput'>
+						<xs:sequence />
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSAmbitiTerritorialiOutput'>
+				<xs:complexContent>
+					<xs:extension base='tns:esitoOutput'>
+						<xs:sequence>
+							<xs:element maxOccurs='unbounded' minOccurs='0' name='ambitoTerritoriale' nillable='true' type='tns:ambitoTerritorialeType' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSEntiInput' />
+			<xs:complexType name='domandaWSEntiOutput'>
+				<xs:complexContent>
+					<xs:extension base='tns:esitoOutput'>
+						<xs:sequence>
+							<xs:element maxOccurs='unbounded' minOccurs='0' name='enti' nillable='true' type='tns:enteType' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSEdizioniFinanziateInput'>
+				<xs:complexContent>
+					<xs:extension base='tns:utenteInfoInput'>
+						<xs:sequence />
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSEdizioniFinanziateOutput'>
+				<xs:complexContent>
+					<xs:extension base='tns:esitoOutput'>
+						<xs:sequence>
+							<xs:element maxOccurs='unbounded' minOccurs='0' name='edizioneFinanziata' nillable='true' type='tns:edizioneFinanziataType' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSComuniInput'>
+				<xs:complexContent>
+					<xs:extension base='tns:utenteInfoInput'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='dataRiferimento' type='xs:dateTime' />
+							<xs:element minOccurs='0' name='descrizioneComune' type='xs:string' />
+							<xs:element minOccurs='0' name='tipoGerarchia' type='tns:tipoGerarchia' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSComuniOutput'>
+				<xs:complexContent>
+					<xs:extension base='tns:esitoOutput'>
+						<xs:sequence>
+							<xs:element maxOccurs='unbounded' minOccurs='0' name='comune' nillable='true' type='tns:comuneType' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='comuneType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='descrizione' type='xs:string' />
+					<xs:element minOccurs='0' name='idObj' type='xs:string' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='domandaWSRegistraInput'>
+				<xs:complexContent>
+					<xs:extension base='tns:utenteInfoInput'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='domandaType' type='tns:domandaRegistrareType' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaRegistrareType'>
+				<xs:sequence>
+					<xs:element minOccurs='0' name='extracomunitariType' type='tns:domandaExtracomunitariType' />
+					<xs:element minOccurs='0' name='idEdizioneFinanziata' type='xs:long' />
+					<xs:element minOccurs='0' name='numeroDomandaICEF' type='xs:string' />
+					<xs:element minOccurs='0' name='residenzaType' type='tns:domandaResidenzaType' />
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name='domandaWSRegistraOutput'>
+				<xs:complexContent>
+					<xs:extension base='tns:esitoOutput'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='domanda' type='tns:domandaType' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSEliminaInput'>
+				<xs:complexContent>
+					<xs:extension base='tns:utenteInfoInput'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='idDomanda' type='xs:long' />
+							<xs:element minOccurs='0' name='versione' type='xs:int' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSEliminaOutput'>
+				<xs:complexContent>
+					<xs:extension base='tns:esitoOutput'>
+						<xs:sequence />
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSStampaInput'>
+				<xs:complexContent>
+					<xs:extension base='tns:utenteInfoInput'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='idDomanda' type='xs:long' />
+							<xs:element minOccurs='0' name='tipoStampa' type='tns:tipoStampa' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:complexType name='domandaWSStampaOutput'>
+				<xs:complexContent>
+					<xs:extension base='tns:esitoOutput'>
+						<xs:sequence>
+							<xs:element minOccurs='0' name='stampa' type='xs:base64Binary' />
+						</xs:sequence>
+					</xs:extension>
+				</xs:complexContent>
+			</xs:complexType>
+			<xs:simpleType name='contratto'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='CANONE_LIBERO' />
+					<xs:enumeration value='CANONE_CONCORDATO' />
+					<xs:enumeration value='NESSUNO' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='lavoro'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='collocamento' />
+					<xs:enumeration value='lavoro' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='permesso'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='soggiorno' />
+					<xs:enumeration value='ce' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='sesso'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='Feminile' />
+					<xs:enumeration value='Maschile' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='categoriaInvalidita'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='CategoriaInvalida4' />
+					<xs:enumeration value='CategoriaInvalida3' />
+					<xs:enumeration value='CategoriaInvalida2' />
+					<xs:enumeration value='CategoriaInvalida1' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='parentela'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='ALTRO_CONVIVENTE' />
+					<xs:enumeration value='PARENTE_34_GRADO' />
+					<xs:enumeration value='PARENTE_2_GRADO' />
+					<xs:enumeration value='PARENTE_1_GRADO' />
+					<xs:enumeration value='FIGLIO' />
+					<xs:enumeration value='CONVIVENTE_MORE_UXORIO' />
+					<xs:enumeration value='CONIUGE_NON_SEPARATO' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='statoCivile'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='GIA_CONIUGATO_A' />
+					<xs:enumeration value='VEDOVO_A' />
+					<xs:enumeration value='CONIUGATO_A' />
+					<xs:enumeration value='NUBILE_CELIBE' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='sistemaOrigine'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='ICEF' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='tipoResidenza'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='ALLOGGIO_INIDONEO' />
+					<xs:enumeration value='ALLOGGIO_IMPROPRIAMENTE_ADIBITO' />
+					<xs:enumeration value='ALLOGGIO_PRIVO_SERVIZI' />
+					<xs:enumeration value='NORMALE' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='categoria'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='PATTIFUTURAVENDITA' />
+					<xs:enumeration value='FORZEORDINE' />
+					<xs:enumeration value='INQUILINIITEA' />
+					<xs:enumeration value='EXTRACOMUNITARI' />
+					<xs:enumeration value='COMUNITARI' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='tipoStrumento'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='ALL_PRIVATO_DISAGIO' />
+					<xs:enumeration value='ALL_PUBBLICO_DISAGIO' />
+					<xs:enumeration value='CANONE_MODERATO' />
+					<xs:enumeration value='LOCAZIONE_ALL_PUBBLICO' />
+					<xs:enumeration value='CONTRIBUTO_ALL_PRIVATO' />
+					<xs:enumeration value='GESTIONE_ALLOGGI' />
+					<xs:enumeration value='INQUILINI_ITEA' />
+					<xs:enumeration value='CONTRIBUTO_INTEGRATIVO_DISAGIO' />
+					<xs:enumeration value='LOCAZIONE_ALLOGGIO' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='statoDomanda'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='CHIUSA' />
+					<xs:enumeration value='AMMESSA' />
+					<xs:enumeration value='NON_IDONEA' />
+					<xs:enumeration value='RITIRATA' />
+					<xs:enumeration value='IDONEA' />
+					<xs:enumeration value='PROVVISORIA' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='esito'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='KO' />
+					<xs:enumeration value='OK' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='tipoGerarchia'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='H_NAZ_PRO_COMP_COM_FRA' />
+					<xs:enumeration value='H_NAZ_PRO_COM_FRA' />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name='tipoStampa'>
+				<xs:restriction base='xs:string'>
+					<xs:enumeration value='SCHEDA_DOMANDA_CON_PUNTEGGIO' />
+					<xs:enumeration value='SCHEDA_PUNTEGGIO' />
+					<xs:enumeration value='SCHEDA_DOMANDA' />
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:schema>
+	</types>
+	<message name='DomandaEPU_caricaResponse'>
+		<part name='return' type='tns:domandaWSCaricaOutput'></part>
+	</message>
+	<message name='DomandaEPU_consolida'>
+		<part name='arg0' type='tns:domandaWSConsolidaInput'></part>
+	</message>
+	<message name='DomandaEPU_registra'>
+		<part name='arg0' type='tns:domandaWSRegistraInput'></part>
+	</message>
+	<message name='DomandaEPU_carica'>
+		<part name='arg0' type='tns:domandaWSCaricaInput'></part>
+	</message>
+	<message name='DomandaEPU_elencoAmbitiTerritorialiResponse'>
+		<part name='return' type='tns:domandaWSAmbitiTerritorialiOutput'></part>
+	</message>
+	<message name='DomandaEPU_consolidaResponse'>
+		<part name='return' type='tns:domandaWSConsolidaOutput'></part>
+	</message>
+	<message name='DomandaEPU_elencoEnti'>
+		<part name='arg0' type='tns:domandaWSEntiInput'></part>
+	</message>
+	<message name='DomandaEPU_stampaResponse'>
+		<part name='return' type='tns:domandaWSStampaOutput'></part>
+	</message>
+	<message name='DomandaEPU_modificaResponse'>
+		<part name='return' type='tns:domandaWSModificaOutput'></part>
+	</message>
+	<message name='DomandaEPU_elencoEdizioniFinanziateResponse'>
+		<part name='return' type='tns:domandaWSEdizioniFinanziateOutput'></part>
+	</message>
+	<message name='DomandaEPU_elencoEdizioniFinanziate'>
+		<part name='arg0' type='tns:domandaWSEdizioniFinanziateInput'></part>
+	</message>
+	<message name='DomandaEPU_ricercaResponse'>
+		<part name='return' type='tns:domandaWSRicercaOutput'></part>
+	</message>
+	<message name='DomandaEPU_elencoComuniResponse'>
+		<part name='return' type='tns:domandaWSComuniOutput'></part>
+	</message>
+	<message name='DomandaEPU_stampa'>
+		<part name='arg0' type='tns:domandaWSStampaInput'></part>
+	</message>
+	<message name='DomandaEPU_registraResponse'>
+		<part name='return' type='tns:domandaWSRegistraOutput'></part>
+	</message>
+	<message name='DomandaEPU_modifica'>
+		<part name='arg0' type='tns:domandaWSModificaInput'></part>
+	</message>
+	<message name='DomandaEpuFault'>
+		<part element='tns:DomandaEpuFault' name='DomandaEpuFault'></part>
+	</message>
+	<message name='DomandaEPU_elencoComuni'>
+		<part name='arg0' type='tns:domandaWSComuniInput'></part>
+	</message>
+	<message name='DomandaEPU_elencoEntiResponse'>
+		<part name='return' type='tns:domandaWSEntiOutput'></part>
+	</message>
+	<message name='DomandaEPU_ricerca'>
+		<part name='arg0' type='tns:domandaWSRicercaInput'></part>
+	</message>
+	<message name='DomandaEPU_eliminaResponse'>
+		<part name='return' type='tns:domandaWSEliminaOutput'></part>
+	</message>
+	<message name='DomandaEPU_elimina'>
+		<part name='arg0' type='tns:domandaWSEliminaInput'></part>
+	</message>
+	<message name='DomandaEPU_elencoAmbitiTerritoriali'>
+		<part name='arg0' type='tns:domandaWSAmbitiTerritorialiInput'></part>
+	</message>
+	<portType name='DomandaEPU'>
+		<operation name='carica' parameterOrder='arg0'>
+			<input message='tns:DomandaEPU_carica'></input>
+			<output message='tns:DomandaEPU_caricaResponse'></output>
+			<fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
+		</operation>
+		<operation name='consolida' parameterOrder='arg0'>
+			<input message='tns:DomandaEPU_consolida'></input>
+			<output message='tns:DomandaEPU_consolidaResponse'></output>
+			<fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
+		</operation>
+		<operation name='elencoAmbitiTerritoriali' parameterOrder='arg0'>
+			<input message='tns:DomandaEPU_elencoAmbitiTerritoriali'></input>
+			<output message='tns:DomandaEPU_elencoAmbitiTerritorialiResponse'></output>
+			<fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
+		</operation>
+		<operation name='elencoComuni' parameterOrder='arg0'>
+			<input message='tns:DomandaEPU_elencoComuni'></input>
+			<output message='tns:DomandaEPU_elencoComuniResponse'></output>
+			<fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
+		</operation>
+		<operation name='elencoEdizioniFinanziate' parameterOrder='arg0'>
+			<input message='tns:DomandaEPU_elencoEdizioniFinanziate'></input>
+			<output message='tns:DomandaEPU_elencoEdizioniFinanziateResponse'></output>
+			<fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
+		</operation>
+		<operation name='elencoEnti' parameterOrder='arg0'>
+			<input message='tns:DomandaEPU_elencoEnti'></input>
+			<output message='tns:DomandaEPU_elencoEntiResponse'></output>
+			<fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
+		</operation>
+		<operation name='elimina' parameterOrder='arg0'>
+			<input message='tns:DomandaEPU_elimina'></input>
+			<output message='tns:DomandaEPU_eliminaResponse'></output>
+			<fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
+		</operation>
+		<operation name='modifica' parameterOrder='arg0'>
+			<input message='tns:DomandaEPU_modifica'></input>
+			<output message='tns:DomandaEPU_modificaResponse'></output>
+			<fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
+		</operation>
+		<operation name='registra' parameterOrder='arg0'>
+			<input message='tns:DomandaEPU_registra'></input>
+			<output message='tns:DomandaEPU_registraResponse'></output>
+			<fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
+		</operation>
+		<operation name='ricerca' parameterOrder='arg0'>
+			<input message='tns:DomandaEPU_ricerca'></input>
+			<output message='tns:DomandaEPU_ricercaResponse'></output>
+			<fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
+		</operation>
+		<operation name='stampa' parameterOrder='arg0'>
+			<input message='tns:DomandaEPU_stampa'></input>
+			<output message='tns:DomandaEPU_stampaResponse'></output>
+			<fault message='tns:DomandaEpuFault' name='DomandaEpuFault'></fault>
+		</operation>
+	</portType>
+	<binding name='DomandaEPUBinding' type='tns:DomandaEPU'>
+		<soap:binding style='rpc' transport='http://schemas.xmlsoap.org/soap/http' />
+		<operation name='carica'>
+			<soap:operation soapAction='' />
+			<input>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</output>
+			<fault name='DomandaEpuFault'>
+				<soap:fault name='DomandaEpuFault' use='literal' />
+			</fault>
+		</operation>
+		<operation name='consolida'>
+			<soap:operation soapAction='' />
+			<input>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</output>
+			<fault name='DomandaEpuFault'>
+				<soap:fault name='DomandaEpuFault' use='literal' />
+			</fault>
+		</operation>
+		<operation name='elencoAmbitiTerritoriali'>
+			<soap:operation soapAction='' />
+			<input>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</output>
+			<fault name='DomandaEpuFault'>
+				<soap:fault name='DomandaEpuFault' use='literal' />
+			</fault>
+		</operation>
+		<operation name='elencoComuni'>
+			<soap:operation soapAction='' />
+			<input>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</output>
+			<fault name='DomandaEpuFault'>
+				<soap:fault name='DomandaEpuFault' use='literal' />
+			</fault>
+		</operation>
+		<operation name='elencoEdizioniFinanziate'>
+			<soap:operation soapAction='' />
+			<input>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</output>
+			<fault name='DomandaEpuFault'>
+				<soap:fault name='DomandaEpuFault' use='literal' />
+			</fault>
+		</operation>
+		<operation name='elencoEnti'>
+			<soap:operation soapAction='' />
+			<input>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</output>
+			<fault name='DomandaEpuFault'>
+				<soap:fault name='DomandaEpuFault' use='literal' />
+			</fault>
+		</operation>
+		<operation name='elimina'>
+			<soap:operation soapAction='' />
+			<input>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</output>
+			<fault name='DomandaEpuFault'>
+				<soap:fault name='DomandaEpuFault' use='literal' />
+			</fault>
+		</operation>
+		<operation name='modifica'>
+			<soap:operation soapAction='' />
+			<input>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</output>
+			<fault name='DomandaEpuFault'>
+				<soap:fault name='DomandaEpuFault' use='literal' />
+			</fault>
+		</operation>
+		<operation name='registra'>
+			<soap:operation soapAction='' />
+			<input>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</output>
+			<fault name='DomandaEpuFault'>
+				<soap:fault name='DomandaEpuFault' use='literal' />
+			</fault>
+		</operation>
+		<operation name='ricerca'>
+			<soap:operation soapAction='' />
+			<input>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</output>
+			<fault name='DomandaEpuFault'>
+				<soap:fault name='DomandaEpuFault' use='literal' />
+			</fault>
+		</operation>
+		<operation name='stampa'>
+			<soap:operation soapAction='' />
+			<input>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</input>
+			<output>
+				<soap:body namespace='http://epu.infotn.it' use='literal' />
+			</output>
+			<fault name='DomandaEpuFault'>
+				<soap:fault name='DomandaEpuFault' use='literal' />
+			</fault>
+		</operation>
+	</binding>
+	<service name='DomandaEPUService'>
+		<port binding='tns:DomandaEPUBinding' name='DomandaEPUPort'>
+			<soap:address location='http://172.20.0.97:11180/epu/DomandaEPUService' />
+		</port>
+	</service>
 </definitions>

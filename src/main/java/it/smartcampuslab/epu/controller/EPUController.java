@@ -17,14 +17,24 @@ import it.infotn.epu.DomandaWSModificaInput;
 import it.infotn.epu.DomandaWSModificaOutput;
 import it.infotn.epu.DomandaWSRegistraInput;
 import it.infotn.epu.DomandaWSRegistraOutput;
-import it.smartcampuslab.epu.model.DomandaInfo;
+import it.infotn.epu.DomandaWSStampaInput;
+import it.infotn.epu.DomandaWSStampaOutput;
 import it.smartcampuslab.epu.model.ElenchiItem;
 import it.smartcampuslab.epu.model.ElenchiOutput;
+import it.smartcampuslab.epu.storage.DomandaInfo;
 import it.smartcampuslab.epu.storage.PagamentoInfo;
+import it.smartcampuslab.epu.storage.PraticaData;
 import it.smartcampuslab.epu.storage.PraticaStorage;
 import it.smartcampuslab.epu.storage.ProtocolloInfo;
+import it.smartcampuslab.epu.storage.Status;
+import it.smartcampuslab.p3.Dichiarazioni;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +42,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.handler.MessageContext;
+
+import net.sf.json.xml.XMLSerializer;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,17 +71,20 @@ public class EPUController {
 	private String endpoint;
 
 	@Autowired
-	@Value("${user}")
+	@Value("${u_n}")
 	private String username;
 
 	@Autowired
-	@Value("${pwd}")
+	@Value("${p_v}")
 	private String password;
 
 	@Autowired
 	private PraticaStorage storage;
 
 	private Logger log = Logger.getLogger(this.getClass());
+
+	public EPUController() {
+	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/Ping")
 	public @ResponseBody
@@ -78,7 +99,7 @@ public class EPUController {
 			log.info("Crea Pratica");
 
 			DomandaWSRegistraOutput result = null;
-			DomandaInfo di = new DomandaInfo();
+			PraticaData pd = new PraticaData();
 
 			try {
 				result = getPort().registra(wsInput);
@@ -93,12 +114,11 @@ public class EPUController {
 				return null;
 			}
 
-			di.setId(result.getDomanda().getIdObj());
-			di.setUserIdentity(wsInput.getUserIdentity());
-			di.setVersion(result.getDomanda().getVersione());
+			pd.setId(result.getDomanda().getIdObj());
+			pd.setUserIdentity(wsInput.getUserIdentity());
 
-			if (!storage.store(di)) {
-				log.warn("Already present: " + di);
+			if (!storage.store(pd)) {
+				log.warn("Already present: " + pd.getId());
 				return null;
 			}
 
@@ -170,6 +190,8 @@ public class EPUController {
 	@RequestMapping(method = RequestMethod.POST, value = "/Pagamento")
 	public void pagamento(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody PagamentoInfo pagamentoInfo) {
 		try {
+			log.info("Pagamento");
+
 			if (!storage.updatePagamento(pagamentoInfo)) {
 				System.out.println("Not present for payment: " + pagamentoInfo);
 				return;
@@ -181,9 +203,72 @@ public class EPUController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/StampaPDF")
-	public void stampaPDF(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody DomandaInfo domandaInfo) {
+	@RequestMapping(method = RequestMethod.POST, value = "/Stampa")
+	public @ResponseBody
+	String stampa(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody DomandaWSStampaInput wsInput) {
 		try {
+			log.info("Stampa");
+			DomandaWSStampaOutput result = null;
+			try {
+				result = getPort().stampa(wsInput);
+			} catch (DomandaEpuFault_Exception e) {
+				String msg = e.getFaultInfo().getUserMessage();
+				System.out.println(msg);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+			}
+
+			String s = complete(new String(result.getStampa()), true);
+
+			return s;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return null;
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/StampaJSON")
+	public @ResponseBody
+	String stampaJSON(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody DomandaWSStampaInput wsInput) {
+		try {
+			log.info("Stampa JSON");
+			DomandaWSStampaOutput result = null;
+			try {
+				result = getPort().stampa(wsInput);
+			} catch (DomandaEpuFault_Exception e) {
+				String msg = e.getFaultInfo().getUserMessage();
+				System.out.println(msg);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+			}
+
+			String s = complete(new String(result.getStampa()), false);
+
+			return xml2json(s);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return null;
+		}
+	}
+
+	private String xml2json(String xml) {
+		XMLSerializer ser = new XMLSerializer();
+		String json = ser.read(xml).toString();
+
+		return json;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/StampaPDF")
+	public @ResponseBody
+	String stampaPDF(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody DomandaInfo domandaInfo) {
+		try {
+			log.info("Stampa PDF");
+
+			// consolida
+
+			storage.updateStatus(domandaInfo.getId(), Status.CONSOLIDATA);
 
 			// call P3
 
@@ -193,19 +278,23 @@ public class EPUController {
 
 			if (!storage.updateProtocollo(pi)) {
 				System.out.println("Not present for protocol: " + domandaInfo);
-				return;
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "");
 			}
 
+			return "http://p3.it/" + domandaInfo.getId() + ".pdf";
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
+
+		return null;
 	}
 
 	// was Consolida
 	@RequestMapping(method = RequestMethod.POST, value = "/Protocolla")
 	public void protocolla(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody DomandaInfo domandaInfo) {
 		try {
+			log.info("Protocolla");
 
 			DomandaWSConsolidaInput wsInput = new DomandaWSConsolidaInput();
 			wsInput.setIdDomanda(domandaInfo.getId());
@@ -215,6 +304,7 @@ public class EPUController {
 			DomandaWSConsolidaOutput result = null;
 			// try {
 			// result = getPort().consolida(wsInput);
+			storage.updateStatus(domandaInfo.getId(), Status.PROTOCOLLATA);
 			// } catch (DomandaEpuFault_Exception e) {
 			// String msg = e.getFaultInfo().getUserMessage();
 			// System.out.println(msg);
@@ -276,19 +366,59 @@ public class EPUController {
 		}
 	}
 
-	private DomandaEPU getPort() {
-		DomandaEPUService des = new DomandaEPUService();
-		DomandaEPU port = des.getDomandaEPUPort();
+	private DomandaEPU getPort() throws EPUException {
+		try {
+			DomandaEPUService des = new DomandaEPUService();
+			DomandaEPU port = des.getDomandaEPUPort();
 
-		Map<String, Object> req_ctx = ((BindingProvider) port).getRequestContext();
-		req_ctx.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpoint);
+			Map<String, Object> req_ctx = ((BindingProvider) port).getRequestContext();
+			req_ctx.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpoint);
 
-		Map<String, List<String>> headers = new HashMap<String, List<String>>();
-		headers.put("username", Collections.singletonList(username));
-		headers.put("password", Collections.singletonList(password));
-		req_ctx.put(MessageContext.HTTP_REQUEST_HEADERS, headers);
+			Map<String, List<String>> headers = new HashMap<String, List<String>>();
+			headers.put("username", Collections.singletonList(username));
+			headers.put("password", Collections.singletonList(password));
+			req_ctx.put(MessageContext.HTTP_REQUEST_HEADERS, headers);
 
-		return port;
+			return port;
+		} catch (Exception e) {
+			throw new EPUException(e);
+		}
+	}
+
+	public String complete(String stampa, boolean wrap) throws DatatypeConfigurationException, JAXBException {
+		GregorianCalendar gregorianCalendar = new GregorianCalendar();
+		DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+		XMLGregorianCalendar calendar = datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
+
+		JAXBContext jc = JAXBContext.newInstance("it.smartcampuslab.p3");
+		Unmarshaller u = jc.createUnmarshaller();
+
+		StringBuffer sb = new StringBuffer();
+		if (wrap) {
+		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		sb.append("<dichiarazioni xmlns=\"http://schemas.sygest.it/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://schemas.sygest.it/ ../../main/resources/p3.xsd \">");
+		sb.append("<dichiarazione>");
+		sb.append("<hash></hash>");
+		sb.append("<modalita_invio>Tramite portale</modalita_invio>");
+		sb.append("<versione></versione>");
+		sb.append("<luogo></luogo>");
+		sb.append("<data>" + calendar.toXMLFormat() + "</data>");
+		sb.append("<stampaSchedaPunteggio>");
+		}
+		sb.append(stampa.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""));
+		if (wrap) {
+		sb.append("</stampaSchedaPunteggio>");
+		sb.append("</dichiarazione>");
+		sb.append("</dichiarazioni>");
+
+		}
+
+		String s = sb.toString();
+		if (wrap) {
+			Dichiarazioni d = (Dichiarazioni) u.unmarshal(new StringReader(s));
+		}
+		
+		return s;
 	}
 
 }

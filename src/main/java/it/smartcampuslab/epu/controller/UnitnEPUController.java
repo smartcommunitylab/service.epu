@@ -42,17 +42,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 	@Controller
 	public class UnitnEPUController {
 		
-		 @Autowired
-		 @Value("${endpoint}")
-		 private String endpoint;
-		
-		 @Autowired
-		 @Value("${user}")
-		 private String username;
-		
-		 @Autowired
-		 @Value("${pwd}")
-		 private String password;
+		@Autowired
+		@Value("${endpoint}")
+		private String endpoint;
+
+		@Autowired
+		@Value("${u_n}")
+		private String username;
+
+		@Autowired
+		@Value("${p_v}")
+		private String password;
 		 
 		 DomandaEPU port;
 		
