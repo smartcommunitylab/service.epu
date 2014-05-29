@@ -244,7 +244,7 @@ public class EPUController {
 
 			String s = complete(new String(result.getStampa()), false);
 
-			return xml2json(s);
+			return xml2json(s).replace("\"@", "\"");
 
 		} catch (Exception e) {
 			e.printStackTrace();
