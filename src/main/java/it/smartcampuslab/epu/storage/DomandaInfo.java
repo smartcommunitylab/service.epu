@@ -1,20 +1,17 @@
 package it.smartcampuslab.epu.storage;
 
-import org.springframework.data.annotation.Id;
-
-
 public class DomandaInfo {
 
-	@Id
-	protected Long id;
+	protected Long idDomanda;
 	protected String userIdentity;
+	protected Integer version;
 
-	public Long getId() {
-		return id;
+	public Long getIdDomanda() {
+		return idDomanda;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdDomanda(Long id) {
+		this.idDomanda = id;
 	}
 
 	public String getUserIdentity() {
@@ -25,9 +22,17 @@ public class DomandaInfo {
 		this.userIdentity = userIdentity;
 	}
 
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
 	@Override
 	public String toString() {
-		return id + "(" + userIdentity + ")";
+		return idDomanda + "(" + userIdentity + ")." + version;
 	}
 
 }

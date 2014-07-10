@@ -1,26 +1,29 @@
 package it.smartcampuslab.epu.storage;
 
-
 public class PraticaData extends PagamentoInfo {
 
-	protected String p3Id;
+	protected Integer p3Id;
+	protected String p3Hash;
 	protected long data;
 	protected Status status;
+	protected String token;
+	protected String email;
+	protected long epuTime;
 
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
-	public String getP3Id() {
+	public Integer getP3Id() {
 		return p3Id;
 	}
 
-	public void setP3Id(String p3Id) {
+	public void setP3Id(Integer p3Id) {
 		this.p3Id = p3Id;
+	}
+
+	public String getP3Hash() {
+		return p3Hash;
+	}
+
+	public void setP3Hash(String p3Hash) {
+		this.p3Hash = p3Hash;
 	}
 
 	public long getData() {
@@ -31,5 +34,38 @@ public class PraticaData extends PagamentoInfo {
 		this.data = data;
 	}
 
-	
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public long getEpuTime() {
+		return epuTime;
+	}
+
+	public void setEpuTime(long epuTime) {
+		this.epuTime = epuTime;
+	}
+
+
+
 }

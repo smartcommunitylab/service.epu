@@ -1,41 +1,56 @@
 package it.smartcampuslab.epu.storage;
 
-
-
 public class PagamentoInfo extends DomandaInfo {
 
-	protected String idPagamento;
-	protected String modalitaPagamento;
-	protected Double importoPagamento;
+	protected String identificativo;
+	protected String oraEmissione;
+	protected String giornoEmissione;
+	protected Boolean esenzione =  Boolean.FALSE;
+	protected String motivo;
 
-	public String getIdPagamento() {
-		return idPagamento;
+	public String getIdentificativo() {
+		return identificativo;
 	}
 
-	public void setIdPagamento(String marcaDaBollo) {
-		this.idPagamento = marcaDaBollo;
+	public void setIdentificativo(String identificativo) {
+		this.identificativo = identificativo;
 	}
 
-	public String getModalitaPagamento() {
-		return modalitaPagamento;
+	public String getOraEmissione() {
+		return oraEmissione;
 	}
 
-	public void setModalitaPagamento(String modalitaPagamento) {
-		this.modalitaPagamento = modalitaPagamento;
+	public void setOraEmissione(String oraEmissione) {
+		this.oraEmissione = oraEmissione;
 	}
 
-	public Double getImportoPagamento() {
-		return importoPagamento;
+	public String getGiornoEmissione() {
+		return giornoEmissione;
 	}
 
-	public void setImportoPagamento(Double importoPagamento) {
-		this.importoPagamento = importoPagamento;
+	public void setGiornoEmissione(String giornoEmissione) {
+		this.giornoEmissione = giornoEmissione;
+	}
+
+	public Boolean getEsenzione() {
+		return esenzione;
+	}
+
+	public void setEsenzione(Boolean esenzione) {
+		this.esenzione = esenzione;
+	}
+
+	public String getMotivo() {
+		return motivo;
+	}
+
+	public void setMotivo(String motivo) {
+		this.motivo = motivo;
 	}
 
 	@Override
 	public String toString() {
-		return id + "." + idPagamento + "(" + userIdentity + ")";
+		return idDomanda + "." + identificativo + "(" + userIdentity + ")";
 	}
-	
 
 }

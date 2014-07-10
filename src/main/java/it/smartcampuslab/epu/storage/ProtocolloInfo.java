@@ -1,30 +1,38 @@
 package it.smartcampuslab.epu.storage;
 
-
 public class ProtocolloInfo {
 
-	private Long id;
-	private String protocollo;
+	private Long idDomanda;
+	private Integer id;
+	private String hash;
 
-	public Long getId() {
+	public Long getIdDomanda() {
+		return idDomanda;
+	}
+
+	public void setIdDomanda(Long idDomanda) {
+		this.idDomanda = idDomanda;
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getProtocollo() {
-		return protocollo;
+	public String getHash() {
+		return hash;
 	}
 
-	public void setProtocollo(String protocollo) {
-		this.protocollo = protocollo;
+	public void setHash(String hash) {
+		this.hash = hash;
 	}
-	
+
 	@Override
 	public String toString() {
-		return id + "." + protocollo;
+		return id + "." + hash;
 	}
 
 }
