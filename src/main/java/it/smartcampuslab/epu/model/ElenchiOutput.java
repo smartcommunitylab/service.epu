@@ -7,10 +7,12 @@ public class ElenchiOutput {
 
 	private List<ElenchiItem> ambitiTerritoriali;
 	private List<ElenchiItem> comuni;
+	private List<ElenchiItem> edizioniFinanziate;
 	
 	public ElenchiOutput() {
 		ambitiTerritoriali = new ArrayList<ElenchiItem>();
 		comuni = new ArrayList<ElenchiItem>();
+		edizioniFinanziate = new ArrayList<ElenchiItem>();
 	}
 	
 	public List<ElenchiItem> getAmbitiTerritoriali() {
@@ -24,6 +26,14 @@ public class ElenchiOutput {
 	}
 	public void setComuni(List<ElenchiItem> comuni) {
 		this.comuni = comuni;
+	}
+
+	public List<ElenchiItem> getEdizioniFinanziate() {
+		return edizioniFinanziate;
+	}
+
+	public void setEdizioniFinanziate(List<ElenchiItem> edizioniFinanziate) {
+		this.edizioniFinanziate = edizioniFinanziate;
 	}
 
 	
