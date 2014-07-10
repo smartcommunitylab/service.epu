@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 	public class UnitnEPUController {
 		
 		@Autowired
-		@Value("${endpoint}")
+		@Value("${epu_endpoint}")
 		private String endpoint;
 
 		@Autowired
