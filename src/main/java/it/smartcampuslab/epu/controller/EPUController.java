@@ -658,7 +658,7 @@ public class EPUController {
 			}
 			}
 
-			if (pd.getStatus().isInviabile()) {
+			if (pd.getStatus().ordinal() >= Status.PAGATA.ordinal()) {
 				pd = storage.updateStatus(domandaInfo.getIdDomanda(), Status.CONSOLIDATA);
 				result.setResult("Consolidata");
 			}
