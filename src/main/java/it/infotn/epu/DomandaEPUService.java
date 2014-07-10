@@ -1,7 +1,6 @@
 
 package it.infotn.epu;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Logger;
 
@@ -18,33 +17,34 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.1
  * 
  */
-@WebServiceClient(name = "DomandaEPUService", targetNamespace = "http://epu.infotn.it", wsdlLocation = "https://epu-test.infotn.it/epu/DomandaEPUService?wsdl")
+@WebServiceClient(name = "DomandaEPUService", targetNamespace = "http://epu.infotn.it", wsdlLocation = "file:/C:/workspace-GIT/service.epu.web/src/main/resources/DomandaEPUService.wsdl")
 public class DomandaEPUService
     extends Service
 {
 
-    private final static URL DOMANDAEPUSERVICE_WSDL_LOCATION;
+//    private final static URL DOMANDAEPUSERVICE_WSDL_LOCATION;
     private final static Logger logger = Logger.getLogger(it.infotn.epu.DomandaEPUService.class.getName());
 
-    static {
-        URL url = null;
-        try {
-            URL baseUrl;
-            baseUrl = it.infotn.epu.DomandaEPUService.class.getResource(".");
-            url = new URL(baseUrl, "https://epu-test.infotn.it/epu/DomandaEPUService?wsdl");
-        } catch (MalformedURLException e) {
-            logger.warning("Failed to create URL for the wsdl Location: 'https://epu-test.infotn.it/epu/DomandaEPUService?wsdl', retrying as a local file");
-            logger.warning(e.getMessage());
-        }
-        DOMANDAEPUSERVICE_WSDL_LOCATION = url;
-    }
+//    static {
+//        URL url = null;
+//        try {
+//            URL baseUrl;
+//            baseUrl = it.infotn.epu.DomandaEPUService.class.getResource(".");
+//            url = new URL(baseUrl, "file:/C:/workspace-GIT/service.epu.web/src/main/resources/DomandaEPUService.wsdl");
+//        } catch (MalformedURLException e) {
+//            logger.warning("Failed to create URL for the wsdl Location: 'file:/C:/workspace-GIT/service.epu.web/src/main/resources/DomandaEPUService.wsdl', retrying as a local file");
+//            logger.warning(e.getMessage());
+//        }
+//        DOMANDAEPUSERVICE_WSDL_LOCATION = url;
+//    }
 
     public DomandaEPUService(URL wsdlLocation, QName serviceName) {
         super(wsdlLocation, serviceName);
     }
 
     public DomandaEPUService() {
-        super(DOMANDAEPUSERVICE_WSDL_LOCATION, new QName("http://epu.infotn.it", "DomandaEPUService"));
+//        super(DOMANDAEPUSERVICE_WSDL_LOCATION, new QName("http://epu.infotn.it", "DomandaEPUService"));
+    	super(Thread.currentThread().getContextClassLoader().getResource("/DomandaEPUService.wsdl"), new QName("http://epu.infotn.it", "DomandaEPUService"));
     }
 
     /**

@@ -34,155 +34,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link StrumentoInterventoType }
+     * Create an instance of {@link DomandaWSComuniOutput }
      * 
      */
-    public StrumentoInterventoType createStrumentoInterventoType() {
-        return new StrumentoInterventoType();
-    }
-
-    /**
-     * Create an instance of {@link DomandaType }
-     * 
-     */
-    public DomandaType createDomandaType() {
-        return new DomandaType();
-    }
-
-    /**
-     * Create an instance of {@link EdizioneType }
-     * 
-     */
-    public EdizioneType createEdizioneType() {
-        return new EdizioneType();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSRegistraInput }
-     * 
-     */
-    public DomandaWSRegistraInput createDomandaWSRegistraInput() {
-        return new DomandaWSRegistraInput();
-    }
-
-    /**
-     * Create an instance of {@link DomandaRicercaType }
-     * 
-     */
-    public DomandaRicercaType createDomandaRicercaType() {
-        return new DomandaRicercaType();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSCaricaInput }
-     * 
-     */
-    public DomandaWSCaricaInput createDomandaWSCaricaInput() {
-        return new DomandaWSCaricaInput();
-    }
-
-    /**
-     * Create an instance of {@link DomandaExtracomunitariType }
-     * 
-     */
-    public DomandaExtracomunitariType createDomandaExtracomunitariType() {
-        return new DomandaExtracomunitariType();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSEdizioniFinanziateOutput }
-     * 
-     */
-    public DomandaWSEdizioniFinanziateOutput createDomandaWSEdizioniFinanziateOutput() {
-        return new DomandaWSEdizioniFinanziateOutput();
-    }
-
-    /**
-     * Create an instance of {@link PersonaType }
-     * 
-     */
-    public PersonaType createPersonaType() {
-        return new PersonaType();
-    }
-
-    /**
-     * Create an instance of {@link VariazioneComponenteModificareType }
-     * 
-     */
-    public VariazioneComponenteModificareType createVariazioneComponenteModificareType() {
-        return new VariazioneComponenteModificareType();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSModificaOutput }
-     * 
-     */
-    public DomandaWSModificaOutput createDomandaWSModificaOutput() {
-        return new DomandaWSModificaOutput();
-    }
-
-    /**
-     * Create an instance of {@link AlloggioOccupatoType }
-     * 
-     */
-    public AlloggioOccupatoType createAlloggioOccupatoType() {
-        return new AlloggioOccupatoType();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSEntiOutput }
-     * 
-     */
-    public DomandaWSEntiOutput createDomandaWSEntiOutput() {
-        return new DomandaWSEntiOutput();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSRicercaOutput }
-     * 
-     */
-    public DomandaWSRicercaOutput createDomandaWSRicercaOutput() {
-        return new DomandaWSRicercaOutput();
-    }
-
-    /**
-     * Create an instance of {@link DomandaEpuFault }
-     * 
-     */
-    public DomandaEpuFault createDomandaEpuFault() {
-        return new DomandaEpuFault();
-    }
-
-    /**
-     * Create an instance of {@link ComponenteType }
-     * 
-     */
-    public ComponenteType createComponenteType() {
-        return new ComponenteType();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSCaricaOutput }
-     * 
-     */
-    public DomandaWSCaricaOutput createDomandaWSCaricaOutput() {
-        return new DomandaWSCaricaOutput();
-    }
-
-    /**
-     * Create an instance of {@link AmbitoTerritorialeType }
-     * 
-     */
-    public AmbitoTerritorialeType createAmbitoTerritorialeType() {
-        return new AmbitoTerritorialeType();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSAmbitiTerritorialiInput }
-     * 
-     */
-    public DomandaWSAmbitiTerritorialiInput createDomandaWSAmbitiTerritorialiInput() {
-        return new DomandaWSAmbitiTerritorialiInput();
+    public DomandaWSComuniOutput createDomandaWSComuniOutput() {
+        return new DomandaWSComuniOutput();
     }
 
     /**
@@ -194,115 +50,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DomandaWSEdizioniFinanziateInput }
+     * Create an instance of {@link VariazioneComponenteModificareType }
      * 
      */
-    public DomandaWSEdizioniFinanziateInput createDomandaWSEdizioniFinanziateInput() {
-        return new DomandaWSEdizioniFinanziateInput();
+    public VariazioneComponenteModificareType createVariazioneComponenteModificareType() {
+        return new VariazioneComponenteModificareType();
     }
 
     /**
-     * Create an instance of {@link IndicatoreEconomicoType }
+     * Create an instance of {@link EdizioneFinanziataType }
      * 
      */
-    public IndicatoreEconomicoType createIndicatoreEconomicoType() {
-        return new IndicatoreEconomicoType();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSStampaInput }
-     * 
-     */
-    public DomandaWSStampaInput createDomandaWSStampaInput() {
-        return new DomandaWSStampaInput();
-    }
-
-    /**
-     * Create an instance of {@link DomandaBaseType }
-     * 
-     */
-    public DomandaBaseType createDomandaBaseType() {
-        return new DomandaBaseType();
-    }
-
-    /**
-     * Create an instance of {@link ComponenteParentelaStatoCivileModificareType }
-     * 
-     */
-    public ComponenteParentelaStatoCivileModificareType createComponenteParentelaStatoCivileModificareType() {
-        return new ComponenteParentelaStatoCivileModificareType();
-    }
-
-    /**
-     * Create an instance of {@link NucleoFamiliareModificareType }
-     * 
-     */
-    public NucleoFamiliareModificareType createNucleoFamiliareModificareType() {
-        return new NucleoFamiliareModificareType();
-    }
-
-    /**
-     * Create an instance of {@link ComuneType }
-     * 
-     */
-    public ComuneType createComuneType() {
-        return new ComuneType();
-    }
-
-    /**
-     * Create an instance of {@link ComponenteBaseType }
-     * 
-     */
-    public ComponenteBaseType createComponenteBaseType() {
-        return new ComponenteBaseType();
-    }
-
-    /**
-     * Create an instance of {@link NucleoFamiliareType }
-     * 
-     */
-    public NucleoFamiliareType createNucleoFamiliareType() {
-        return new NucleoFamiliareType();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSComuniInput }
-     * 
-     */
-    public DomandaWSComuniInput createDomandaWSComuniInput() {
-        return new DomandaWSComuniInput();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSComuniOutput }
-     * 
-     */
-    public DomandaWSComuniOutput createDomandaWSComuniOutput() {
-        return new DomandaWSComuniOutput();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSRegistraOutput }
-     * 
-     */
-    public DomandaWSRegistraOutput createDomandaWSRegistraOutput() {
-        return new DomandaWSRegistraOutput();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSEntiInput }
-     * 
-     */
-    public DomandaWSEntiInput createDomandaWSEntiInput() {
-        return new DomandaWSEntiInput();
-    }
-
-    /**
-     * Create an instance of {@link DomandaWSRicercaInput }
-     * 
-     */
-    public DomandaWSRicercaInput createDomandaWSRicercaInput() {
-        return new DomandaWSRicercaInput();
+    public EdizioneFinanziataType createEdizioneFinanziataType() {
+        return new EdizioneFinanziataType();
     }
 
     /**
@@ -314,11 +74,187 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DomandaBaseType }
+     * 
+     */
+    public DomandaBaseType createDomandaBaseType() {
+        return new DomandaBaseType();
+    }
+
+    /**
+     * Create an instance of {@link DomandaWSEdizioniFinanziateOutput }
+     * 
+     */
+    public DomandaWSEdizioniFinanziateOutput createDomandaWSEdizioniFinanziateOutput() {
+        return new DomandaWSEdizioniFinanziateOutput();
+    }
+
+    /**
+     * Create an instance of {@link DomandaWSCaricaInput }
+     * 
+     */
+    public DomandaWSCaricaInput createDomandaWSCaricaInput() {
+        return new DomandaWSCaricaInput();
+    }
+
+    /**
+     * Create an instance of {@link VariazioneComponenteType }
+     * 
+     */
+    public VariazioneComponenteType createVariazioneComponenteType() {
+        return new VariazioneComponenteType();
+    }
+
+    /**
+     * Create an instance of {@link EnteType }
+     * 
+     */
+    public EnteType createEnteType() {
+        return new EnteType();
+    }
+
+    /**
+     * Create an instance of {@link DomandaWSAmbitiTerritorialiInput }
+     * 
+     */
+    public DomandaWSAmbitiTerritorialiInput createDomandaWSAmbitiTerritorialiInput() {
+        return new DomandaWSAmbitiTerritorialiInput();
+    }
+
+    /**
+     * Create an instance of {@link DomandaWSRegistraOutput }
+     * 
+     */
+    public DomandaWSRegistraOutput createDomandaWSRegistraOutput() {
+        return new DomandaWSRegistraOutput();
+    }
+
+    /**
+     * Create an instance of {@link DomandaWSStampaInput }
+     * 
+     */
+    public DomandaWSStampaInput createDomandaWSStampaInput() {
+        return new DomandaWSStampaInput();
+    }
+
+    /**
+     * Create an instance of {@link DomandaEpuFault }
+     * 
+     */
+    public DomandaEpuFault createDomandaEpuFault() {
+        return new DomandaEpuFault();
+    }
+
+    /**
+     * Create an instance of {@link StrumentoInterventoType }
+     * 
+     */
+    public StrumentoInterventoType createStrumentoInterventoType() {
+        return new StrumentoInterventoType();
+    }
+
+    /**
      * Create an instance of {@link EsitoOutput }
      * 
      */
     public EsitoOutput createEsitoOutput() {
         return new EsitoOutput();
+    }
+
+    /**
+     * Create an instance of {@link ComponenteType }
+     * 
+     */
+    public ComponenteType createComponenteType() {
+        return new ComponenteType();
+    }
+
+    /**
+     * Create an instance of {@link AlloggioOccupatoType }
+     * 
+     */
+    public AlloggioOccupatoType createAlloggioOccupatoType() {
+        return new AlloggioOccupatoType();
+    }
+
+    /**
+     * Create an instance of {@link SegnalazioneType }
+     * 
+     */
+    public SegnalazioneType createSegnalazioneType() {
+        return new SegnalazioneType();
+    }
+
+    /**
+     * Create an instance of {@link ParentelaStatoCivileModificareType }
+     * 
+     */
+    public ParentelaStatoCivileModificareType createParentelaStatoCivileModificareType() {
+        return new ParentelaStatoCivileModificareType();
+    }
+
+    /**
+     * Create an instance of {@link DomandaModificareType }
+     * 
+     */
+    public DomandaModificareType createDomandaModificareType() {
+        return new DomandaModificareType();
+    }
+
+    /**
+     * Create an instance of {@link ComponenteBaseType }
+     * 
+     */
+    public ComponenteBaseType createComponenteBaseType() {
+        return new ComponenteBaseType();
+    }
+
+    /**
+     * Create an instance of {@link ComponenteParentelaStatoCivileModificareType }
+     * 
+     */
+    public ComponenteParentelaStatoCivileModificareType createComponenteParentelaStatoCivileModificareType() {
+        return new ComponenteParentelaStatoCivileModificareType();
+    }
+
+    /**
+     * Create an instance of {@link DomandaWSConsolidaOutput }
+     * 
+     */
+    public DomandaWSConsolidaOutput createDomandaWSConsolidaOutput() {
+        return new DomandaWSConsolidaOutput();
+    }
+
+    /**
+     * Create an instance of {@link ComuneType }
+     * 
+     */
+    public ComuneType createComuneType() {
+        return new ComuneType();
+    }
+
+    /**
+     * Create an instance of {@link EdizioneType }
+     * 
+     */
+    public EdizioneType createEdizioneType() {
+        return new EdizioneType();
+    }
+
+    /**
+     * Create an instance of {@link IndicatoreEconomicoType }
+     * 
+     */
+    public IndicatoreEconomicoType createIndicatoreEconomicoType() {
+        return new IndicatoreEconomicoType();
+    }
+
+    /**
+     * Create an instance of {@link NucleoFamiliareModificareType }
+     * 
+     */
+    public NucleoFamiliareModificareType createNucleoFamiliareModificareType() {
+        return new NucleoFamiliareModificareType();
     }
 
     /**
@@ -338,51 +274,59 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link NucleoFamiliareComponentiModificareType }
+     * Create an instance of {@link DomandaExtracomunitariType }
      * 
      */
-    public NucleoFamiliareComponentiModificareType createNucleoFamiliareComponentiModificareType() {
-        return new NucleoFamiliareComponentiModificareType();
+    public DomandaExtracomunitariType createDomandaExtracomunitariType() {
+        return new DomandaExtracomunitariType();
     }
 
     /**
-     * Create an instance of {@link DomandaResidenzaType }
+     * Create an instance of {@link NucleoFamiliareType }
      * 
      */
-    public DomandaResidenzaType createDomandaResidenzaType() {
-        return new DomandaResidenzaType();
+    public NucleoFamiliareType createNucleoFamiliareType() {
+        return new NucleoFamiliareType();
     }
 
     /**
-     * Create an instance of {@link SegnalazioneType }
+     * Create an instance of {@link DomandaType }
      * 
      */
-    public SegnalazioneType createSegnalazioneType() {
-        return new SegnalazioneType();
+    public DomandaType createDomandaType() {
+        return new DomandaType();
     }
 
     /**
-     * Create an instance of {@link EnteType }
+     * Create an instance of {@link DomandaWSEntiOutput }
      * 
      */
-    public EnteType createEnteType() {
-        return new EnteType();
+    public DomandaWSEntiOutput createDomandaWSEntiOutput() {
+        return new DomandaWSEntiOutput();
     }
 
     /**
-     * Create an instance of {@link DomandaModificareType }
+     * Create an instance of {@link AmbitoTerritorialeType }
      * 
      */
-    public DomandaModificareType createDomandaModificareType() {
-        return new DomandaModificareType();
+    public AmbitoTerritorialeType createAmbitoTerritorialeType() {
+        return new AmbitoTerritorialeType();
     }
 
     /**
-     * Create an instance of {@link DomandaWSConsolidaOutput }
+     * Create an instance of {@link DomandaWSCaricaOutput }
      * 
      */
-    public DomandaWSConsolidaOutput createDomandaWSConsolidaOutput() {
-        return new DomandaWSConsolidaOutput();
+    public DomandaWSCaricaOutput createDomandaWSCaricaOutput() {
+        return new DomandaWSCaricaOutput();
+    }
+
+    /**
+     * Create an instance of {@link DomandaRicercaType }
+     * 
+     */
+    public DomandaRicercaType createDomandaRicercaType() {
+        return new DomandaRicercaType();
     }
 
     /**
@@ -394,27 +338,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DomandaWSConsolidaInput }
+     * Create an instance of {@link NucleoFamiliareComponentiModificareType }
      * 
      */
-    public DomandaWSConsolidaInput createDomandaWSConsolidaInput() {
-        return new DomandaWSConsolidaInput();
+    public NucleoFamiliareComponentiModificareType createNucleoFamiliareComponentiModificareType() {
+        return new NucleoFamiliareComponentiModificareType();
     }
 
     /**
-     * Create an instance of {@link ComponenteModificareType }
+     * Create an instance of {@link DomandaWSComuniInput }
      * 
      */
-    public ComponenteModificareType createComponenteModificareType() {
-        return new ComponenteModificareType();
-    }
-
-    /**
-     * Create an instance of {@link VariazioneComponenteType }
-     * 
-     */
-    public VariazioneComponenteType createVariazioneComponenteType() {
-        return new VariazioneComponenteType();
+    public DomandaWSComuniInput createDomandaWSComuniInput() {
+        return new DomandaWSComuniInput();
     }
 
     /**
@@ -426,11 +362,75 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ParentelaStatoCivileModificareType }
+     * Create an instance of {@link DomandaWSModificaOutput }
      * 
      */
-    public ParentelaStatoCivileModificareType createParentelaStatoCivileModificareType() {
-        return new ParentelaStatoCivileModificareType();
+    public DomandaWSModificaOutput createDomandaWSModificaOutput() {
+        return new DomandaWSModificaOutput();
+    }
+
+    /**
+     * Create an instance of {@link DomandaWSEdizioniFinanziateInput }
+     * 
+     */
+    public DomandaWSEdizioniFinanziateInput createDomandaWSEdizioniFinanziateInput() {
+        return new DomandaWSEdizioniFinanziateInput();
+    }
+
+    /**
+     * Create an instance of {@link DomandaWSRegistraInput }
+     * 
+     */
+    public DomandaWSRegistraInput createDomandaWSRegistraInput() {
+        return new DomandaWSRegistraInput();
+    }
+
+    /**
+     * Create an instance of {@link DomandaWSRicercaInput }
+     * 
+     */
+    public DomandaWSRicercaInput createDomandaWSRicercaInput() {
+        return new DomandaWSRicercaInput();
+    }
+
+    /**
+     * Create an instance of {@link ComponenteModificareType }
+     * 
+     */
+    public ComponenteModificareType createComponenteModificareType() {
+        return new ComponenteModificareType();
+    }
+
+    /**
+     * Create an instance of {@link DomandaWSRicercaOutput }
+     * 
+     */
+    public DomandaWSRicercaOutput createDomandaWSRicercaOutput() {
+        return new DomandaWSRicercaOutput();
+    }
+
+    /**
+     * Create an instance of {@link DomandaResidenzaType }
+     * 
+     */
+    public DomandaResidenzaType createDomandaResidenzaType() {
+        return new DomandaResidenzaType();
+    }
+
+    /**
+     * Create an instance of {@link PersonaType }
+     * 
+     */
+    public PersonaType createPersonaType() {
+        return new PersonaType();
+    }
+
+    /**
+     * Create an instance of {@link DomandaWSEntiInput }
+     * 
+     */
+    public DomandaWSEntiInput createDomandaWSEntiInput() {
+        return new DomandaWSEntiInput();
     }
 
     /**
@@ -442,11 +442,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link EdizioneFinanziataType }
+     * Create an instance of {@link DomandaWSConsolidaInput }
      * 
      */
-    public EdizioneFinanziataType createEdizioneFinanziataType() {
-        return new EdizioneFinanziataType();
+    public DomandaWSConsolidaInput createDomandaWSConsolidaInput() {
+        return new DomandaWSConsolidaInput();
     }
 
     /**

@@ -19,8 +19,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;extension base="{http://epu.infotn.it}variazioneComponenteModificareType">
  *       &lt;sequence>
  *         &lt;element name="dataFine" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
- *         &lt;element name="decsrCittadinanza" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="idCittadinanza" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -31,9 +29,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "variazioneComponenteType", propOrder = {
-    "dataFine",
-    "decsrCittadinanza",
-    "idCittadinanza"
+    "dataFine"
 })
 public class VariazioneComponenteType
     extends VariazioneComponenteModificareType
@@ -41,8 +37,6 @@ public class VariazioneComponenteType
 
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar dataFine;
-    protected String decsrCittadinanza;
-    protected Long idCittadinanza;
 
     /**
      * Gets the value of the dataFine property.
@@ -66,54 +60,6 @@ public class VariazioneComponenteType
      */
     public void setDataFine(XMLGregorianCalendar value) {
         this.dataFine = value;
-    }
-
-    /**
-     * Gets the value of the decsrCittadinanza property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDecsrCittadinanza() {
-        return decsrCittadinanza;
-    }
-
-    /**
-     * Sets the value of the decsrCittadinanza property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDecsrCittadinanza(String value) {
-        this.decsrCittadinanza = value;
-    }
-
-    /**
-     * Gets the value of the idCittadinanza property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getIdCittadinanza() {
-        return idCittadinanza;
-    }
-
-    /**
-     * Sets the value of the idCittadinanza property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setIdCittadinanza(Long value) {
-        this.idCittadinanza = value;
     }
 
 }

@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="anniResidenza" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *         &lt;element name="anniResidenzaComune" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *         &lt;element name="categoriaInvalidita" type="{http://epu.infotn.it}categoriaInvalidita" minOccurs="0"/>
+ *         &lt;element name="decsrCittadinanza" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="donnaLavoratrice" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
  *         &lt;element name="flagResidenza" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
  *         &lt;element name="frazione" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -50,6 +51,7 @@ import javax.xml.bind.annotation.XmlType;
     "anniResidenza",
     "anniResidenzaComune",
     "categoriaInvalidita",
+    "decsrCittadinanza",
     "donnaLavoratrice",
     "flagResidenza",
     "frazione",
@@ -75,6 +77,7 @@ public class VariazioneComponenteModificareType {
     protected Integer anniResidenza;
     protected Integer anniResidenzaComune;
     protected CategoriaInvalidita categoriaInvalidita;
+    protected String decsrCittadinanza;
     protected Boolean donnaLavoratrice;
     protected Boolean flagResidenza;
     protected String frazione;
@@ -185,6 +188,30 @@ public class VariazioneComponenteModificareType {
      */
     public void setCategoriaInvalidita(CategoriaInvalidita value) {
         this.categoriaInvalidita = value;
+    }
+
+    /**
+     * Gets the value of the decsrCittadinanza property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getDecsrCittadinanza() {
+        return decsrCittadinanza;
+    }
+
+    /**
+     * Sets the value of the decsrCittadinanza property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDecsrCittadinanza(String value) {
+        this.decsrCittadinanza = value;
     }
 
     /**

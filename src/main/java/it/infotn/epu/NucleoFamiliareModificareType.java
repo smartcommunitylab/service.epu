@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="componentiExtraIcef" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *         &lt;element name="idDomanda" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
  *         &lt;element name="idObj" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
+ *         &lt;element name="monoGenitore" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
  *         &lt;element name="numeroStanze" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -35,6 +36,7 @@ import javax.xml.bind.annotation.XmlType;
     "componentiExtraIcef",
     "idDomanda",
     "idObj",
+    "monoGenitore",
     "numeroStanze"
 })
 public class NucleoFamiliareModificareType {
@@ -43,6 +45,7 @@ public class NucleoFamiliareModificareType {
     protected Integer componentiExtraIcef;
     protected Long idDomanda;
     protected Long idObj;
+    protected Boolean monoGenitore;
     protected Integer numeroStanze;
 
     /**
@@ -139,6 +142,30 @@ public class NucleoFamiliareModificareType {
      */
     public void setIdObj(Long value) {
         this.idObj = value;
+    }
+
+    /**
+     * Gets the value of the monoGenitore property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
+     */
+    public Boolean isMonoGenitore() {
+        return monoGenitore;
+    }
+
+    /**
+     * Sets the value of the monoGenitore property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
+     */
+    public void setMonoGenitore(Boolean value) {
+        this.monoGenitore = value;
     }
 
     /**
