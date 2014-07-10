@@ -11,21 +11,21 @@ package it.smartcampuslab.p3;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for type_esenzionemarcabollo complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="type_esenzionemarcabollo">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="dichiarazione" type="{http://schemas.sygest.it/}type_dichiarazione_proloco"/>
+ *         &lt;element name="esenzione" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="motivo" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,37 +35,54 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "dichiarazione"
+@XmlType(name = "type_esenzionemarcabollo", propOrder = {
+    "esenzione",
+    "motivo"
 })
-@XmlRootElement(name = "dichiarazioni")
-public class Dichiarazioni {
+public class TypeEsenzionemarcabollo {
 
+    protected boolean esenzione;
     @XmlElement(required = true)
-    protected TypeDichiarazioneProloco dichiarazione;
+    protected String motivo;
 
     /**
-     * Gets the value of the dichiarazione property.
+     * Gets the value of the esenzione property.
      * 
-     * @return
-     *     possible object is
-     *     {@link TypeDichiarazioneProloco }
-     *     
      */
-    public TypeDichiarazioneProloco getDichiarazione() {
-        return dichiarazione;
+    public boolean isEsenzione() {
+        return esenzione;
     }
 
     /**
-     * Sets the value of the dichiarazione property.
+     * Sets the value of the esenzione property.
+     * 
+     */
+    public void setEsenzione(boolean value) {
+        this.esenzione = value;
+    }
+
+    /**
+     * Gets the value of the motivo property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getMotivo() {
+        return motivo;
+    }
+
+    /**
+     * Sets the value of the motivo property.
      * 
      * @param value
      *     allowed object is
-     *     {@link TypeDichiarazioneProloco }
+     *     {@link String }
      *     
      */
-    public void setDichiarazione(TypeDichiarazioneProloco value) {
-        this.dichiarazione = value;
+    public void setMotivo(String value) {
+        this.motivo = value;
     }
 
 }
