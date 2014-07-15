@@ -143,8 +143,6 @@
 					<xs:extension base='tns:variazioneComponenteModificareType'>
 						<xs:sequence>
 							<xs:element minOccurs='0' name='dataFine' type='xs:dateTime' />
-							<xs:element minOccurs='0' name='decsrCittadinanza' type='xs:string' />
-							<xs:element minOccurs='0' name='idCittadinanza' type='xs:long' />
 						</xs:sequence>
 					</xs:extension>
 				</xs:complexContent>
@@ -155,6 +153,7 @@
 					<xs:element minOccurs='0' name='anniResidenza' type='xs:int' />
 					<xs:element minOccurs='0' name='anniResidenzaComune' type='xs:int' />
 					<xs:element minOccurs='0' name='categoriaInvalidita' type='tns:categoriaInvalidita' />
+					<xs:element minOccurs='0' name='decsrCittadinanza' type='xs:string' />
 					<xs:element minOccurs='0' name='donnaLavoratrice' type='xs:boolean' />
 					<xs:element minOccurs='0' name='flagResidenza' type='xs:boolean' />
 					<xs:element minOccurs='0' name='frazione' type='xs:string' />
@@ -313,6 +312,7 @@
 					<xs:element minOccurs='0' name='componentiExtraIcef' type='xs:int' />
 					<xs:element minOccurs='0' name='idDomanda' type='xs:long' />
 					<xs:element minOccurs='0' name='idObj' type='xs:long' />
+					<xs:element minOccurs='0' name='monoGenitore' type='xs:boolean' />
 					<xs:element minOccurs='0' name='numeroStanze' type='xs:int' />
 				</xs:sequence>
 			</xs:complexType>
