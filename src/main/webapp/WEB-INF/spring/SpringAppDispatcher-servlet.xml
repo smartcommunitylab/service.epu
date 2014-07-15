@@ -58,6 +58,10 @@
 	</bean>
 
 	<bean id="praticaStorage" class="it.smartcampuslab.epu.storage.PraticaStorage"></bean>
+	
+	<bean id="adobeHelper" class="it.smartcampuslab.epu.controller.AdobeHelper"></bean>
+	
+	<bean id="epuHelper" class="it.smartcampuslab.epu.controller.EPUHelper"></bean>
 
     
      
