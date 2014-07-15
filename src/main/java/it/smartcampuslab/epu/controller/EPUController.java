@@ -528,9 +528,17 @@ public class EPUController {
 				pi.setId(ua.getId_attachment());
 
 				storage.updateProtocollo(pi);
-
+				
+				Map ur2 = adobeHelper.parseGetPDFResult(new String(form.value.getBinaryData()));
+				
+				if ("0".equals(ur2.get("CodiceOutput"))) {
 				returnGetPDFResult(null, pdf, response);
 				return;
+				} else {
+					result.setError((String) ur2.get("DescrizioneOutput"));
+					returnGetPDFResult(result, null, response);
+					return;					
+				}
 
 			} else {
 				result.setError((String) ur.get("DescrizioneOutput"));
@@ -584,7 +592,7 @@ public class EPUController {
 			}
 			}
 
-			if (pd.getStatus().ordinal() >= Status.PAGATA.ordinal()) {
+			if (pd.getStatus().ordinal() == Status.PAGATA.ordinal()) {
 				try {
 					DomandaWSConsolidaOutput consResult = consolida(domandaInfo);
 					if (consResult.getEsito().equals(Esito.KO)) {
@@ -611,7 +619,7 @@ public class EPUController {
 
 					ModulisticaOnlineApprovalPDF port = adobeHelper.getApproval();
 
-					com.adobe.idp.services.approvalpdf.XML xml = port.invoke(1, pd.getP3Id(), pd.getP3Hash(), "ACCETTATO");
+					com.adobe.idp.services.approvalpdf.XML xml = port.invoke(0, pd.getP3Id(), pd.getP3Hash(), "ACCETTATO");
 
 					String xmlS = (xml != null) ? xml.getDocument() : null;
 
@@ -619,6 +627,8 @@ public class EPUController {
 					if ("0".equals((String) pr.get("CodiceOutput"))) {
 						storage.updateStatus(domandaInfo.getIdDomanda(), Status.ACCETTATA);
 						result.setResult("Accettata");
+					} else if (pr.containsKey("faultstring")) {
+						result.setError((String)pr.get("faultstring"));
 					}
 
 				} catch (Exception e) {
@@ -658,7 +668,7 @@ public class EPUController {
 			}
 			}
 
-			if (pd.getStatus().ordinal() >= Status.PAGATA.ordinal()) {
+			if (pd.getStatus().ordinal() == Status.PAGATA.ordinal()) {
 				pd = storage.updateStatus(domandaInfo.getIdDomanda(), Status.CONSOLIDATA);
 				result.setResult("Consolidata");
 			}
@@ -668,7 +678,7 @@ public class EPUController {
 
 					ModulisticaOnlineApprovalPDF port = adobeHelper.getApproval();
 
-					com.adobe.idp.services.approvalpdf.XML xml = port.invoke(1, pd.getP3Id(), pd.getP3Hash(), "RIFIUTATO");
+					com.adobe.idp.services.approvalpdf.XML xml = port.invoke(0, pd.getP3Id(), pd.getP3Hash(), "RIFIUTATO");
 
 					String xmlS = (xml != null) ? xml.getDocument() : null;
 
@@ -677,6 +687,8 @@ public class EPUController {
 					if ("0".equals((String) pr.get("CodiceOutput"))) {
 						storage.updateStatus(domandaInfo.getIdDomanda(), Status.RIFIUTATA);
 						result.setResult("Rifiutata");
+					} else if (pr.containsKey("faultstring")) {
+						result.setError((String)pr.get("faultstring"));
 					}
 
 				} catch (Exception e) {
@@ -930,11 +942,11 @@ public class EPUController {
 	}
 
 	private boolean doChecks() {
-		return TEST.equals(server) || TEST.equals(PROD);
+		return TEST.equals(server) || PROD.equals(server);
 	}
 	
 	private boolean doFix() {
-		return TEST.equals(server) || DEV.equals(DEV);
+		return TEST.equals(server) || DEV.equals(server);
 	}	
 	
 }

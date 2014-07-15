@@ -252,6 +252,40 @@ public class AdobeHelper {
 
 		return result;
 	}
+	
+	public Map<String, String> parseGetPDFResult(String form) {
+		Map<String, String> result = new TreeMap<String, String>();
+
+		XPathFactory factory = XPathFactory.newInstance();
+		XPath xpath = factory.newXPath();
+		XPathExpression expr = null;
+		Node node = null;
+
+		try {
+			if (form != null) {
+				try {
+					Document doc2 = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse((new InputSource(new StringReader(form))));
+
+					try {
+						expr = xpath.compile("//CodiceOutput");
+						node = (Node) expr.evaluate(doc2, XPathConstants.NODE);
+						result.put("CodiceOutput", node.getTextContent());
+					} catch (Exception e) {}
+
+					try {
+						expr = xpath.compile("//DescrizioneOutput");
+						node = (Node) expr.evaluate(doc2, XPathConstants.NODE);
+						result.put("DescrizioneOutput", node.getTextContent());
+					} catch (Exception e) {}
+				} catch (Exception e) {}
+			}
+
+		} catch (Exception e) {}
+
+		return result;
+	}	
+	
+	
 
 	public Map<String, String> parseGetPDF(String s) {
 		Map<String, String> result = new TreeMap<String, String>();
@@ -391,6 +425,13 @@ public class AdobeHelper {
 					node = (Node) expr.evaluate(doc2, XPathConstants.NODE);
 					result.put("DescrizioneOutput", node.getTextContent());
 				} catch (Exception e) {}
+				
+				try {
+					expr = xpath.compile("//faultstring");
+					node = (Node) expr.evaluate(doc2, XPathConstants.NODE);
+					result.put("faultstring", node.getTextContent());
+				} catch (Exception e) {}				
+				
 
 			} catch (Exception e) {}
 		}
