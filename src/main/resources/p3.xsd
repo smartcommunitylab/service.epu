@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 rel. 2 (http://www.altova.com) by erik passadore (sygest) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jxb="http://java.sun.com/xml/ns/jaxb" xmlns="http://schemas.sygest.it/" targetNamespace="http://schemas.sygest.it/" elementFormDefault="qualified" attributeFormDefault="unqualified" jxb:version="2.0">
+	<xs:element name="dichiarazioni">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="dichiarazione" type="type_dichiarazione_proloco"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="type_dichiarazione_proloco">
+		<xs:sequence>
+			<xs:element name="stampaSchedaPunteggio">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="assegnazioneAlloggio">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ente">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="telefono">
+													<xs:simpleType>
+														<xs:restriction base="xs:string"/>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="email">
+													<xs:simpleType>
+														<xs:restriction base="xs:string"/>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="responsabile">
+													<xs:simpleType>
+														<xs:restriction base="xs:string"/>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="indirizzo">
+													<xs:simpleType>
+														<xs:restriction base="xs:string"/>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="descrizione">
+													<xs:simpleType>
+														<xs:restriction base="xs:string"/>
+													</xs:simpleType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="recapito">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="nominativo">
+													<xs:simpleType>
+														<xs:restriction base="xs:string"/>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="comune">
+													<xs:simpleType>
+														<xs:restriction base="xs:string"/>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="cap">
+													<xs:simpleType>
+														<xs:restriction base="xs:int"/>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="altroTelefono">
+													<xs:simpleType>
+														<xs:restriction base="xs:long"/>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="indirizzo">
+													<xs:simpleType>
+														<xs:restriction base="xs:string"/>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="telefono">
+													<xs:simpleType>
+														<xs:restriction base="xs:string"/>
+													</xs:simpleType>
+												</xs:element>
+												<xs:element name="localita" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="datiIdentificativiDomanda">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="dataConsolidamento" type="xs:string"/>
+												<xs:element name="alloggioAdeguato" type="xs:string"/>
+												<xs:element name="ambitiScelti_1" type="xs:string"/>
+												<xs:element name="contributoAlloggioPrivato" type="xs:string"/>
+												<xs:element name="resProvTrento" type="xs:string"/>
+												<xs:element name="iscrizioneAIRE" type="xs:string"/>
+												<xs:element name="cittadinanzaUE" type="xs:string"/>
+												<xs:element name="strumentoIntervento" type="xs:string"/>
+												<xs:element name="idStrumentoIntervento" type="xs:string"/>
+												<xs:element name="categoria" type="xs:string"/>
+												<xs:element name="bando" type="xs:string"/>
+												<xs:element name="edizione" type="xs:string"/>
+												<xs:element name="stato" type="xs:string"/>
+												<xs:element name="protocollo" type="xs:string"/>
+												<xs:element name="dataStampa" type="xs:string"/>
+												<xs:element name="dataPresentazione" type="xs:string"/>
+												<xs:element name="identificativo" type="xs:string"/>
+												<xs:element name="punteggioTotale" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="condizioneFamiliare">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="provenienza" type="xs:string"/>
+												<xs:element name="numeroComponenti" type="xs:string"/>
+												<xs:element name="residenza" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="storiaDomanda">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="residenza" type="xs:string"/>
+												<xs:element name="domanda" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="data-stampa" type="xs:string"/>
+															<xs:element name="identificativo" type="xs:string"/>
+															<xs:element name="punteggio-totale" type="xs:string"/>
+															<xs:element name="numero-componenti-extra-icef" type="xs:string"/>
+															<xs:element name="consolidata" type="xs:boolean"/>
+															<xs:element name="protocollo" type="xs:string"/>
+															<xs:element name="numero-componenti" type="xs:int"/>
+															<xs:element name="descrizione-ente" type="xs:string"/>
+															<xs:element name="ultimo-stato" type="xs:string"/>
+															<xs:element name="idStrumentoIntervento" type="xs:string"/>
+															<xs:element name="descrizione-strumento" type="xs:string"/>
+															<xs:element name="data-presentazione" type="xs:string"/>
+															<xs:element name="richiedente">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="cognome" type="xs:string"/>
+																		<xs:element name="codice-fiscale" type="xs:string"/>
+																		<xs:element name="nome" type="xs:string"/>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="nucleoFamiliare">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="numeroInvalidi" type="xs:int"/>
+												<xs:element name="numeroCivico" type="xs:string"/>
+												<xs:element name="nucleoMonogenitore" type="xs:string"/>
+												<xs:element name="indirizzoResidenza" type="xs:string"/>
+												<xs:element name="gradoInvalidita" type="xs:string"/>
+												<xs:element name="nome" type="xs:string"/>
+												<xs:element name="comuneResidenza" type="xs:string"/>
+												<xs:element name="numeroAnniLavoro" type="xs:int"/>
+												<xs:element name="categoriaInvalidita" type="xs:string"/>
+												<xs:element name="ospite" type="xs:string"/>
+												<xs:element name="cittadinanza" type="xs:string"/>
+												<xs:element name="donnaLavoratrice" type="xs:string"/>
+												<xs:element name="numeroAnniResidenza" type="xs:int"/>
+												<xs:element name="nucleoOriginario" type="xs:string"/>
+												<xs:element name="pensionato" type="xs:string"/>
+												<xs:element name="numeroAnniResidenzaComune" type="xs:string"/>
+												<xs:element name="comuneNascita" type="xs:string"/>
+												<xs:element name="alloggioSbarrierato" type="xs:string"/>
+												<xs:element name="dataNascita" type="xs:string"/>
+												<xs:element name="sesso" type="xs:string"/>
+												<xs:element name="nazioneNascita" type="xs:string"/>
+												<xs:element name="codiceFiscale" type="xs:string"/>
+												<xs:element name="cognome" type="xs:string"/>
+												<xs:element name="componentiExtraICEF" type="xs:string"/>
+												<xs:element name="numeroMinStanzeLetto" type="xs:string"/>
+												<xs:element name="email" type="xs:string"/>
+												<xs:element name="componenteNucleoFamiliare" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="dataNascita" type="xs:string"/>
+															<xs:element name="statoCivile" type="xs:string"/>
+															<xs:element name="codiceFiscale" type="xs:string"/>
+															<xs:element name="ospite" type="xs:string"/>
+															<xs:element name="parentela" type="xs:string" minOccurs="0"/>
+															<xs:element name="CognomeNome" type="xs:string"/>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="dataInizioOspitalita"/>
+												<xs:element name="dataFineOspitalita"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="indicatoriEconomici">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="protocollo" type="xs:string"/>
+												<xs:element name="esitoVerifica" type="xs:string"/>
+												<xs:element name="dataCalcolo" type="xs:string"/>
+												<xs:element name="dataVerifica" type="xs:string"/>
+												<xs:element name="dataFine" type="xs:string"/>
+												<xs:element name="annoRedditoSignificativo" type="xs:int"/>
+												<xs:element name="ICEFAccesso" type="xs:string"/>
+												<xs:element name="ICEFVerifica" type="xs:string"/>
+												<xs:element name="ICEFContributo" type="xs:string"/>
+												<xs:element name="redditoComplessivo" type="xs:string"/>
+												<xs:element name="dataPresentazione" type="xs:string"/>
+												<xs:element name="annoReddito" type="xs:int"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="datiAlloggioOccupato">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="comune" type="xs:string"/>
+												<xs:element name="indirizzo" type="xs:string"/>
+												<xs:element name="importoCanone" type="xs:string"/>
+												<xs:element name="registrazioneContratto" type="xs:string"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="dati_punteggi_domanda">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="domanda" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="data-stampa" type="xs:string"/>
+												<xs:element name="identificativo" type="xs:string"/>
+												<xs:element name="punteggio-totale" type="xs:string"/>
+												<xs:element name="numero-componenti-extra-icef" type="xs:string"/>
+												<xs:element name="consolidata" type="xs:boolean"/>
+												<xs:element name="protocollo" type="xs:string"/>
+												<xs:element name="numero-componenti" type="xs:int"/>
+												<xs:element name="descrizione-ente" type="xs:string"/>
+												<xs:element name="ultimo-stato" type="xs:string"/>
+												<xs:element name="idStrumentoIntervento" type="xs:string"/>
+												<xs:element name="descrizione-strumento" type="xs:string"/>
+												<xs:element name="data-presentazione" type="xs:string"/>
+												<xs:element name="richiedente">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="cognome" type="xs:string"/>
+															<xs:element name="codice-fiscale" type="xs:string"/>
+															<xs:element name="nome" type="xs:string"/>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="punteggi">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="punteggio_e">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="dettaglio">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="valore"/>
+																		<xs:element name="calcolo"/>
+																		<xs:element name="chiave"/>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="punteggio_f">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="punteggio_f1">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="dettaglio">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="valore"/>
+																					<xs:element name="calcolo"/>
+																					<xs:element name="chiave"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="punteggio_fa">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="dettaglio" maxOccurs="unbounded">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="valore"/>
+																					<xs:element name="calcolo"/>
+																					<xs:element name="chiave"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="punteggio_fb">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="dettaglio" maxOccurs="unbounded">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="valore"/>
+																					<xs:element name="calcolo"/>
+																					<xs:element name="chiave"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="punteggio_fc">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="dettaglio">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="valore"/>
+																					<xs:element name="calcolo"/>
+																					<xs:element name="chiave"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="punteggio_fd">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="dettaglio">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="valore"/>
+																					<xs:element name="calcolo"/>
+																					<xs:element name="chiave"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="punteggio_fe">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="dettaglio">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="valore"/>
+																					<xs:element name="calcolo"/>
+																					<xs:element name="chiave"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="totale_F" type="xs:string"/>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="punteggio_l">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="punteggio_la1">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="dettaglio">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="valore"/>
+																					<xs:element name="calcolo"/>
+																					<xs:element name="chiave"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="punteggio_lb">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="dettaglio">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="valore"/>
+																					<xs:element name="calcolo"/>
+																					<xs:element name="chiave"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="totale_L" type="xs:string"/>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="punteggio_totale">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="totale_E">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="dettaglio">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="valore"/>
+																					<xs:element name="calcolo"/>
+																					<xs:element name="chiave"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="totale_F">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="dettaglio">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="valore"/>
+																					<xs:element name="calcolo"/>
+																					<xs:element name="chiave"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="totale_L">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="dettaglio">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="valore"/>
+																					<xs:element name="calcolo"/>
+																					<xs:element name="chiave"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+															<xs:element name="totale_PUNTEGGIO">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="dettaglio">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="valore"/>
+																					<xs:element name="calcolo"/>
+																					<xs:element name="chiave"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="hash" type="xs:string"/>
+			<xs:element name="modalita_invio" type="xs:string"/>
+			<xs:element name="versione" type="xs:string"/>
+			<xs:element name="data" type="xs:string"/>
+			<xs:element name="luogo" type="xs:string"/>
+			<xs:element name="EsenzioneMarcaBollo" type="type_esenzionemarcabollo" />
+			<xs:element name="marcabollo" type="type_marcabollo"/>	
+			<xs:element name="autocertificazione" type="type_autocertificazione"/>	
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="type_esenzionemarcabollo">
+		<xs:sequence>
+			<xs:element name="esenzione" type="xs:boolean"/>
+			<xs:element name="motivo" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="type_marcabollo">
+		<xs:sequence>
+			<xs:element name="giorno_emissione" type="xs:string" />
+			<xs:element name="ora_emissione" type="xs:string"/>
+			<xs:element name="identificativo" type="xs:string"/>      
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="type_autocertificazione">
+			<xs:sequence>
+				<xs:element name="componente_maggior_residenza" type="xs:string" />
+				<xs:element name="periodi_residenza" type="type_periodo_residenza" maxOccurs="unbounded" />
+				<xs:element name="totale_anni" type="xs:int" />
+				<xs:element name="totale_mesi" type="xs:int" />
+				<xs:element name="iscritto_AIRE" type="xs:string" />
+				<xs:element name="AIRE_anni" type="xs:int" />
+				<xs:element name="AIRE_mesi" type="xs:int" />
+				<xs:element name="AIRE_comuni" type="xs:string" />
+				<xs:element name="data_consensuale" type="xs:string" />
+				<xs:element name="tribunale_consensuale" type="xs:string" />
+				<xs:element name="data_giudiziale" type="xs:string" />
+				<xs:element name="tribunale_giudiziale" type="xs:string" />
+				<xs:element name="data_temporaneo" type="xs:string" />
+				<xs:element name="tribunale_temporaneo" type="xs:string" />
+				<xs:element name="componenti" type="type_componente" maxOccurs="unbounded" />
+			</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="type_periodo_residenza">
+		<xs:sequence>
+			<xs:element name="aire" type="xs:boolean" />
+			<xs:element name="comune" type="xs:string" />
+			<xs:element name="dal" type="xs:string" />
+			<xs:element name="al" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>	
+	<xs:complexType name="type_componente">
+		<xs:sequence>
+			<xs:element name="nominativo" type="xs:string" />
+				<xs:element name="strutture" type="type_struttura" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>		
+	<xs:complexType name="type_struttura">
+		<xs:sequence>
+			<xs:element name="nome" type="xs:string" />
+			<xs:element name="dal" type="xs:string" />
+			<xs:element name="al" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>	
+</xs:schema>
