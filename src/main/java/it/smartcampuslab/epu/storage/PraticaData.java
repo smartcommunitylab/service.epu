@@ -1,5 +1,10 @@
 package it.smartcampuslab.epu.storage;
 
+import it.infotn.epu.EdizioneFinanziataType;
+
+import java.util.Map;
+
+
 public class PraticaData extends PagamentoInfo {
 
 	protected Integer p3Id;
@@ -9,6 +14,11 @@ public class PraticaData extends PagamentoInfo {
 	protected String token;
 	protected String email;
 	protected long epuTime;
+	protected Map<String, Object> autocertificazione;
+	
+	protected boolean deleted = false;
+	
+//	protected EdizioneFinanziataType edizioneFinanziata;
 
 	public Integer getP3Id() {
 		return p3Id;
@@ -66,6 +76,28 @@ public class PraticaData extends PagamentoInfo {
 		this.epuTime = epuTime;
 	}
 
+	public Map<String, Object> getAutocertificazione() {
+		return autocertificazione;
+	}
 
+	public void setAutocertificazione(Map<String, Object> autocertificazione) {
+		this.autocertificazione = autocertificazione;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
+//	public EdizioneFinanziataType getEdizioneFinanziata() {
+//		return edizioneFinanziata;
+//	}
+//
+//	public void setEdizioneFinanziata(EdizioneFinanziataType edizioneFinanziata) {
+//		this.edizioneFinanziata = edizioneFinanziata;
+//	}
 
 }
