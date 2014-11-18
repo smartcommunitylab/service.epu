@@ -14,6 +14,8 @@ import it.infotn.epu.DomandaWSConsolidaInput;
 import it.infotn.epu.DomandaWSConsolidaOutput;
 import it.infotn.epu.DomandaWSEdizioniFinanziateInput;
 import it.infotn.epu.DomandaWSEdizioniFinanziateOutput;
+import it.infotn.epu.DomandaWSEliminaInput;
+import it.infotn.epu.DomandaWSEliminaOutput;
 import it.infotn.epu.DomandaWSModificaInput;
 import it.infotn.epu.DomandaWSModificaOutput;
 import it.infotn.epu.DomandaWSRegistraInput;
@@ -51,14 +53,24 @@ import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -139,6 +151,24 @@ public class EPUController {
 
 	private Logger log = Logger.getLogger(this.getClass());
 
+	@Value("${myweb.mail.host}")
+	private String mailHost;
+	@Autowired
+	@Value("${myweb.mail.port}")
+	private String mailPort;
+	@Autowired
+	@Value("${myweb.mail.user}")
+	private String mailUser;
+	@Autowired
+	@Value("${myweb.mail.password}")
+	private String mailPassword;
+	@Autowired
+	@Value("${myweb.mail.from}")
+	private String mailFrom;
+	@Autowired
+	@Value("${myweb.mail.to}")
+	private String mailTo;
+
 	public EPUController() {
 		// System.setProperty("javax.net.debug", "all");
 	}
@@ -146,8 +176,70 @@ public class EPUController {
 	@RequestMapping(method = RequestMethod.GET, value = "/Ping")
 	public @ResponseBody
 	void ping(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+//		sendEmail("ping", "pong");
 	}
 
+	private void sendError(String source, Exception exception, String message, String userIdentity, String idDomanda) {
+		String body = buildErrorMessage(source, exception, message, userIdentity, idDomanda);
+		sendEmail("Problema MyWeb", body);
+	}
+	
+	private void sendEmail(String subject, String msg) {
+		try {
+
+			PasswordAuthentication pa = new PasswordAuthentication(mailUser, mailPassword);
+
+			Properties properties = System.getProperties();
+			properties.put("mail.transport.protocol", "smtp");
+			properties.put("mail.smtp.auth", "true");
+			properties.setProperty("mail.smtp.host", mailHost);
+			properties.setProperty("mail.smtp.port", mailPort);
+
+			Session session = Session.getInstance(properties, new Authenticator() {
+				public PasswordAuthentication getPasswordAuthentication() {
+					try {
+						return new PasswordAuthentication(mailUser, mailPassword);
+					} catch (Exception e) {}
+					return null;
+				}
+			});
+
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(mailFrom));
+			String to[] = mailTo.split(",");
+			for (String t: to) {
+				message.addRecipient(Message.RecipientType.TO, new InternetAddress(t));
+			}
+			message.setSubject(subject);
+			message.setText(msg);
+			Transport.send(message);
+			System.out.println("Email sent.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private String buildErrorMessage(String source, Exception exception, String message, String userIdentity, String idDomanda) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Errore in: \"" + source + "\"\n");
+		DateFormat dateFormatter =	new SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.ITALY);
+		String date = dateFormatter.format(new Date());
+		sb.append("Orario: " + date + "\n");
+		sb.append("userIdentity: " + ((userIdentity != null)?userIdentity:"-") + "\n");
+		sb.append("idDomanda: " + ((idDomanda != null)?idDomanda:"-") + "\n\n");
+		sb.append((message != null)?("\nMessaggio: " + message):"");
+//		sb.append((exception != null)?("\nException: " + exception):"");
+		if (exception != null) {
+			sb.append("Exception:\n");
+			sb.append(exception.getClass().getName() + ": " + exception.getMessage() + "\n");
+			for (StackTraceElement ste: exception.getStackTrace()) {
+				sb.append(ste + "\n");
+			}
+		}
+		
+		return sb.toString();
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/Pingepu")
 	public @ResponseBody
 	String pingEpu(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
@@ -175,10 +267,12 @@ public class EPUController {
 			} catch (DomandaEpuFault_Exception e) {
 				String msg = e.getFaultInfo().getUserMessage();
 				log.error(msg);
+//				sendError("Epu - registra", e.getClass().getName(), msg, creazionePratica.getInput().getUserIdentity(), null);
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
 				return null;
 			} catch (Exception e) {
 				e.printStackTrace();
+				sendError("Epu - registra", e, null, creazionePratica.getInput().getUserIdentity(), null);
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "");
 				return null;
 			}
@@ -193,7 +287,8 @@ public class EPUController {
 			pd.setUserIdentity(wsInput.getUserIdentity());
 			pd.setData(System.currentTimeMillis());
 			pd.setEpuTime(pd.getData());
-
+//			pd.setEdizioneFinanziata(result.getDomanda().getEdizioneFinanziata());
+			
 			if (!storage.store(pd)) {
 				log.warn("Gia' presente: " + pd.getIdDomanda());
 				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -226,9 +321,11 @@ public class EPUController {
 			} catch (DomandaEpuFault_Exception e) {
 				String msg = e.getFaultInfo().getUserMessage();
 				log.error(msg);
+//				sendError("Epu - carica", e.getClass().getName(), msg, userIdentity, "" + idDomanda);
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
 			} catch (Exception e) {
 				e.printStackTrace();
+				sendError("Epu - carica", e, null, userIdentity, "" + idDomanda);
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "");
 				return null;
 			}
@@ -242,15 +339,88 @@ public class EPUController {
 		}
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/EliminaPratica")
+	public @ResponseBody
+	DomandaWSEliminaOutput elimina(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody DomandaInfo domandaInfo) {
+		try {
+			log.info("Elimina Pratica");
+
+			PraticaData pd = storage.getPratica(domandaInfo.getIdDomanda());
+
+			if (pd == null) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Domanda non trovata: " + domandaInfo.getIdDomanda());
+				return null;
+			}			
+			
+			if (doChecks()) {
+				if (pd.getStatus().ordinal() != Status.EDITABILE.ordinal()) {
+					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Domanda non cancellabile: " + domandaInfo.getIdDomanda());
+					return null;
+				}
+			}
+
+			DomandaWSEliminaInput eliminaInput = new DomandaWSEliminaInput();
+			eliminaInput.setIdDomanda(domandaInfo.getIdDomanda());
+			eliminaInput.setIdEnte(ID_ENTE);
+			eliminaInput.setUserIdentity(domandaInfo.getUserIdentity());
+			eliminaInput.setVersione(domandaInfo.getVersion());
+
+			DomandaWSEliminaOutput result = null;
+			try {
+				result = epuHelper.getPort().elimina(eliminaInput);
+			} catch (DomandaEpuFault_Exception e) {
+				String msg = e.getFaultInfo().getUserMessage();
+				log.error(msg);
+//				sendError("Epu - elimina", e.getClass().getName(), msg, domandaInfo.getUserIdentity(), "" + domandaInfo.getIdDomanda());
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+			} catch (Exception e) {
+				e.printStackTrace();
+				sendError("Epu - elimina", e, null , domandaInfo.getUserIdentity(), "" + domandaInfo.getIdDomanda());
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "");
+				return null;
+			}
+
+			storage.updateField(pd.getIdDomanda(), "deleted", true);
+
+			return result;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return null;
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/AggiornaEmail")
+	public @ResponseBody
+	void aggiornaEmail(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestParam Long idDomanda, @RequestParam String email) {
+		try {
+			log.info("Aggiorna Email");
+			
+			PraticaData pd = storage.getPratica(idDomanda);
+
+				if (pd == null) {
+					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Domanda non trovata: " + idDomanda);
+				}
+			
+				storage.updateField(idDomanda, "email", email);
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/RicercaPratiche")
 	public @ResponseBody
-	DomandaWSRicercaOutput ricercaPratiche(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestParam String idEnte, @RequestParam String userIdentity) {
+	DomandaWSRicercaOutput ricercaPratiche(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestParam String idEnte, @RequestParam String userIdentity, @RequestParam(required = false) Boolean online) {
 		try {
 			log.info("Get Pratiche");
 
 			DomandaWSRicercaInput ricercaInput = new DomandaWSRicercaInput();
 			ricercaInput.setIdEnte(idEnte);
 			ricercaInput.setUserIdentity(userIdentity);
+			ricercaInput.setOnline(online!=null?online:true);
 
 			DomandaWSRicercaOutput result = null;
 			try {
@@ -258,9 +428,11 @@ public class EPUController {
 			} catch (DomandaEpuFault_Exception e) {
 				String msg = e.getFaultInfo().getUserMessage();
 				log.error(msg);
+//				sendError("Epu - ricerca", e.getClass().getName(), msg, userIdentity, null);
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
 			} catch (Exception e) {
 				e.printStackTrace();
+				sendError("Epu - carica", e, null, userIdentity, null);
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "");
 				return null;
 			}
@@ -276,11 +448,11 @@ public class EPUController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/GetPraticheMyWeb")
 	public @ResponseBody
-	List<PraticaData> getPratiche(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestParam String userIdentity) {
+	List<PraticaData> getPratiche(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestParam(required = false) String userIdentity) {
 		try {
 			log.info("Get Pratiche MyWeb");
 
-			List<PraticaData> result = storage.getPratiche(userIdentity);
+			List<PraticaData> result = storage.getPratiche(userIdentity, false);
 
 			return result;
 
@@ -290,6 +462,23 @@ public class EPUController {
 			return null;
 		}
 	}
+	
+//	@RequestMapping(method = RequestMethod.GET, value = "/GetPraticheMyWeb")
+//	public @ResponseBody
+//	List<PraticaData> getPratiche(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+//		try {
+//			log.info("Get Pratiche MyWeb");
+//
+//			List<PraticaData> result = storage.getPratiche(null, false);
+//
+//			return result;
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//			return null;
+//		}
+//	}	
 
 	@RequestMapping(method = RequestMethod.GET, value = "/GetPraticaMyWeb")
 	public @ResponseBody
@@ -316,17 +505,25 @@ public class EPUController {
 
 			PraticaData pd = storage.getPratica(wsInput.getDomandaType().getIdDomanda());
 
-			if (!doChecks()) {
-				if (pd == null) {
-					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Domanda non trovata: " + wsInput.getDomandaType().getIdDomanda());
-					return null;
-				}
-
+			if (pd == null) {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Domanda non trovata: " + wsInput.getDomandaType().getIdDomanda());
+				return null;
+			}			
+			
+			if (doChecks()) {
 				if (pd.getStatus().ordinal() >= Status.CONSOLIDATA.ordinal()) {
 					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Domanda gia' inviata: " + wsInput.getDomandaType().getIdDomanda());
 					return null;
 				}
 			}
+
+			if (pd.getP3Hash() != null || pd.getP3Id() != null) {
+				log.info("Removing p3 hash=" + pd.getP3Hash() + " id=" + pd.getP3Id());
+			}
+			pd.setP3Hash("");
+			pd.setP3Id(null);
+			storage.store(pd);
+			storage.updateStatus(pd.getIdDomanda(), Status.EDITABILE);
 
 			DomandaWSModificaOutput result = null;
 			try {
@@ -334,7 +531,13 @@ public class EPUController {
 			} catch (DomandaEpuFault_Exception e) {
 				String msg = e.getFaultInfo().getUserMessage();
 				log.error(msg);
+//				sendError("Epu - modifica", e.getClass().getName(), msg, wsInput.getUserIdentity(), "" + wsInput.getDomandaType().getIdDomanda());
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+			} catch (Exception e) {
+				e.printStackTrace();
+				sendError("Epu - modifica", e, null , wsInput.getUserIdentity(), "" + wsInput.getDomandaType().getIdDomanda());
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "");
+				return null;
 			}
 
 			storage.updateEPUTime(wsInput.getDomandaType().getIdDomanda());
@@ -353,16 +556,16 @@ public class EPUController {
 		try {
 			log.info("Pagamento");
 
-			if (!doChecks()) {
 			PraticaData pd = storage.getPratica(pagamentoInfo.getIdDomanda());
 
 			if (pd == null) {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Domanda non trovata: " + pagamentoInfo.getIdDomanda());
 				return;
-			}
-
-			if (pd.getStatus().ordinal() >= Status.CONSOLIDATA.ordinal()) {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Domanda gia' inviata: " + pagamentoInfo.getIdDomanda());
+			}			
+			
+			if (doChecks()) {
+				if (pd.getStatus().ordinal() >= Status.CONSOLIDATA.ordinal()) {
+					response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Domanda gia' inviata: " + pagamentoInfo.getIdDomanda());
 					return;
 				}
 			}
@@ -393,7 +596,13 @@ public class EPUController {
 			} catch (DomandaEpuFault_Exception e) {
 				String msg = e.getFaultInfo().getUserMessage();
 				log.error(msg);
+//				sendError("Epu - stampa (domanda)", e.getClass().getName(), msg, domandaInfo.getUserIdentity(), "" + domandaInfo.getIdDomanda());
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			} catch (Exception e) {
+				e.printStackTrace();
+				sendError("Epu - stampa (domanda)", e, null , domandaInfo.getUserIdentity(), "" + domandaInfo.getIdDomanda());
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "");
 				return null;
 			}
 
@@ -404,7 +613,13 @@ public class EPUController {
 			} catch (DomandaEpuFault_Exception e) {
 				String msg = e.getFaultInfo().getUserMessage();
 				log.error(msg);
+//				sendError("Epu - stampa (punteggio)", e.getClass().getName(), msg, domandaInfo.getUserIdentity(), "" + domandaInfo.getIdDomanda());
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			} catch (Exception e) {
+				e.printStackTrace();
+				sendError("Epu - stampa (punteggio)", e, null , domandaInfo.getUserIdentity(), "" + domandaInfo.getIdDomanda());
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "");
 				return null;
 			}
 
@@ -428,6 +643,30 @@ public class EPUController {
 		return json;
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = "/SalvaAutocertificazione")
+	public @ResponseBody
+	ProtocollaResult salvaAutocertificazione(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody PDFData pdfData) {
+		ProtocollaResult result = new ProtocollaResult();
+
+		try {
+			log.info("Salva autocertificazione");
+
+			PraticaData pd = storage.getPratica(pdfData.getDomandaInfo().getIdDomanda());
+
+			if (pd == null) {
+				result.setError("Domanda non trovata: " + pdfData.getDomandaInfo().getIdDomanda());
+				return result;
+			}
+
+			storage.updateAutocertificazione(pdfData);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setException(e.getMessage());
+		}
+
+		return result;
+	}
+
 	@RequestMapping(method = RequestMethod.POST, value = "/GetPDF")
 	public @ResponseBody
 	void getPDF(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody PDFData pdfData) {
@@ -443,12 +682,12 @@ public class EPUController {
 				return;
 			}
 
-			if (!doChecks()) {
-			if (pd.getStatus().ordinal() < Status.PAGATA.ordinal()) {
-				result.setError("Domanda non pagata: " + pdfData.getDomandaInfo().getIdDomanda());
-				returnGetPDFResult(result, null, response);
-				return;
-			}
+			if (doChecks()) {
+				if (pd.getStatus().ordinal() < Status.PAGATA.ordinal()) {
+					result.setError("Domanda non pagata: " + pdfData.getDomandaInfo().getIdDomanda());
+					returnGetPDFResult(result, null, response);
+					return;
+				}
 			}
 
 			DomandaWSStampaInput wsInput = new DomandaWSStampaInput();
@@ -463,9 +702,15 @@ public class EPUController {
 			} catch (DomandaEpuFault_Exception e) {
 				String msg = e.getFaultInfo().getUserMessage();
 				log.error(msg);
+//				sendError("Epu - stampa (domanda)", e.getClass().getName(), msg, pdfData.getDomandaInfo().getUserIdentity(), "" + pdfData.getDomandaInfo().getIdDomanda());
 				result.setError(msg);
 				returnGetPDFResult(result, null, response);
 				return;
+			} catch (Exception e) {
+				e.printStackTrace();
+				sendError("Epu - stampa (domanda)", e, null , pdfData.getDomandaInfo().getUserIdentity(), "" + pdfData.getDomandaInfo().getIdDomanda());
+				result.setException(e.getMessage());
+				returnGetPDFResult(result, null, response);
 			}
 
 			wsInput.setTipoStampa(TipoStampa.SCHEDA_PUNTEGGIO);
@@ -475,9 +720,15 @@ public class EPUController {
 			} catch (DomandaEpuFault_Exception e) {
 				String msg = e.getFaultInfo().getUserMessage();
 				log.error(msg);
+//				sendError("Epu - stampa (punteggio)", e.getClass().getName(), msg, pdfData.getDomandaInfo().getUserIdentity(), "" + pdfData.getDomandaInfo().getIdDomanda());
 				result.setError(msg);
 				returnGetPDFResult(result, null, response);
 				return;
+			} catch (Exception e) {
+				e.printStackTrace();
+				sendError("Epu - stampa (punteggio)", e, null , pdfData.getDomandaInfo().getUserIdentity(), "" + pdfData.getDomandaInfo().getIdDomanda());
+				result.setException(e.getMessage());
+				returnGetPDFResult(result, null, response);
 			}
 
 			String dom = new String(stampaResult1.getStampa()).replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "").trim();
@@ -493,14 +744,25 @@ public class EPUController {
 			String tokenString = pd.getToken();
 			tokenString = completeToken(tokenString, pdfData.getDomandaInfo().getIdDomanda());
 
-			ModulisticaOnlineFormUpload port = adobeHelper.getUpload();
 			com.adobe.idp.services.formupload.XML doc = new com.adobe.idp.services.formupload.XML();
+			
+//			sendEmail(pdfData.getDomandaInfo().getUserIdentity() + " / " + pdfData.getDomandaInfo().getIdDomanda(), s);
+			
 			doc.setDocument("<![CDATA[" + s + "]]>");
 			com.adobe.idp.services.formupload.XML token = new com.adobe.idp.services.formupload.XML();
 			token.setDocument(tokenString);
 			Holder<XML> out = new Holder<XML>();
 			Holder<XML> res = new Holder<XML>();
+			
+			try {
+			ModulisticaOnlineFormUpload port = adobeHelper.getUpload();
 			port.invoke(DOMANDA_CONTRIBUTO_O_LOCAZIONE_ALLOGGIO, doc, token, out, res);
+			} catch (Exception e) {
+				e.printStackTrace();
+				sendError("Adobe - upload", e, null , pdfData.getDomandaInfo().getUserIdentity(), "" + pdfData.getDomandaInfo().getIdDomanda());
+				result.setException(e.getMessage());
+				returnGetPDFResult(result, null, response);					
+			}			
 
 			String o = (out.value == null) ? null : out.value.getDocument();
 			String r = (res.value == null) ? null : res.value.getDocument();
@@ -519,29 +781,40 @@ public class EPUController {
 				Holder<BLOB> form = new Holder<BLOB>();
 				Holder<BLOB> pdf = new Holder<BLOB>();
 
+				try {
 				ModulisticaOnlineGetPDF port2 = adobeHelper.getPDFBinary();
 				port2.invoke(ua.getId_attachment(), ua.getHash(), form, pdf);
-
+				} catch (Exception e) {
+					e.printStackTrace();
+					sendError("Adobe - getpdf", e, null , pdfData.getDomandaInfo().getUserIdentity(), "" + pdfData.getDomandaInfo().getIdDomanda());
+					result.setException(e.getMessage());
+					returnGetPDFResult(result, null, response);					
+				}
+				
 				ProtocolloInfo pi = new ProtocolloInfo();
 				pi.setIdDomanda(pdfData.getDomandaInfo().getIdDomanda());
 				pi.setHash(ua.getHash());
 				pi.setId(ua.getId_attachment());
 
 				storage.updateProtocollo(pi);
-				
+
 				Map ur2 = adobeHelper.parseGetPDFResult(new String(form.value.getBinaryData()));
-				
+
 				if ("0".equals(ur2.get("CodiceOutput"))) {
-				returnGetPDFResult(null, pdf, response);
-				return;
+					returnGetPDFResult(null, pdf, response);
+					return;
 				} else {
-					result.setError((String) ur2.get("DescrizioneOutput"));
+					String error = (String) ur2.get("DescrizioneOutput");
+					result.setError(error);
+//					sendError("Adobe - getpdf", null, error, pdfData.getDomandaInfo().getUserIdentity(), "" + pdfData.getDomandaInfo().getIdDomanda());
 					returnGetPDFResult(result, null, response);
-					return;					
+					return;
 				}
 
 			} else {
-				result.setError((String) ur.get("DescrizioneOutput"));
+				String error = (String) ur.get("DescrizioneOutput");
+				result.setError(error);
+//				sendError("Adobe - upload", null, error, pdfData.getDomandaInfo().getUserIdentity(), "" + pdfData.getDomandaInfo().getIdDomanda());
 				returnGetPDFResult(result, null, response);
 				return;
 			}
@@ -557,8 +830,21 @@ public class EPUController {
 
 	}
 
-	
+	private void sendAccettaFailedMail(PraticaData data, String info) {
+		String s = "Errore di protocollazione durante accettazione domanda: " + info + "\n";
+		s += "Stato domanda numero " + data.getIdDomanda() + ": " + data.getStatus();
+		sendEmail("Accetta", s);
+	}
+
 	private void returnGetPDFResult(ProtocollaResult result, Holder<BLOB> pdf, HttpServletResponse response) throws Exception {
+		// if (result.getError() != null || result.getException() != null) {
+		// String msg = (result.getError() != null) ? ("Errore: " +
+		// result.getError() + "\n"):"";
+		// msg += (result.getException() != null) ? ("Eccezione: " +
+		// result.getException() + "\n"):"";
+		// sendEmail("GetPDF", msg);
+		// }
+
 		if (result == null) {
 			response.setContentType("application/pdf");
 			response.getOutputStream().write(pdf.value.getBinaryData());
@@ -584,12 +870,12 @@ public class EPUController {
 				return result;
 			}
 
-			if (!doChecks()) {
-			if (pd.getStatus().ordinal() < Status.PAGATA.ordinal()) {
-				// if (!pd.getStatus().isInviabile()) {
-				result.setError("Domanda non inviabile: " + domandaInfo.getIdDomanda() + " = " + pd.getStatus().toString());
-				return result;
-			}
+			if (doChecks()) {
+				if (pd.getStatus().ordinal() < Status.PAGATA.ordinal()) {
+					// if (!pd.getStatus().isInviabile()) {
+					result.setError("Domanda non inviabile: " + domandaInfo.getIdDomanda() + " = " + pd.getStatus().toString());
+					return result;
+				}
 			}
 
 			if (pd.getStatus().ordinal() == Status.PAGATA.ordinal()) {
@@ -597,6 +883,7 @@ public class EPUController {
 					DomandaWSConsolidaOutput consResult = consolida(domandaInfo);
 					if (consResult.getEsito().equals(Esito.KO)) {
 						System.out.println("Errore in consolidazione di " + domandaInfo.getIdDomanda());
+						sendError("Epu - consolida", null, consResult.getEsito().toString(), domandaInfo.getUserIdentity(), "" + domandaInfo.getIdDomanda());
 						result.setSegnalazioni(consResult.getSegnalazione());
 						return result;
 					}
@@ -605,11 +892,14 @@ public class EPUController {
 				} catch (DomandaEpuFault_Exception e) {
 					String msg = e.getFaultInfo().getUserMessage();
 					System.out.println(msg);
+					sendError("Epu - consolida", null, msg, domandaInfo.getUserIdentity(), "" + domandaInfo.getIdDomanda());
 					result.setError(msg);
 					return result;
 				} catch (Exception e) {
 					System.out.println("Errore in consolidazione di " + domandaInfo);
+					e.printStackTrace();
 					result.setException(e.getMessage());
+					sendError("Epu - consolida", e, null , domandaInfo.getUserIdentity(), "" + domandaInfo.getIdDomanda());					
 					return result;
 				}
 			}
@@ -628,11 +918,15 @@ public class EPUController {
 						storage.updateStatus(domandaInfo.getIdDomanda(), Status.ACCETTATA);
 						result.setResult("Accettata");
 					} else if (pr.containsKey("faultstring")) {
-						result.setError((String)pr.get("faultstring"));
+						String error = (String) pr.get("faultstring");
+						sendError("Adobe - approval  (ACCETTATO)", null, error, domandaInfo.getUserIdentity(), "" + domandaInfo.getIdDomanda());
+						result.setError(error);
 					}
 
 				} catch (Exception e) {
 					log.error("Errore in protocollazione di " + domandaInfo);
+					e.printStackTrace();
+					sendError("Adobe - approval (ACCETTATO)", e, null , domandaInfo.getUserIdentity(), "" + domandaInfo.getIdDomanda());
 					result.setException(e.getMessage());
 					return result;
 				}
@@ -661,11 +955,11 @@ public class EPUController {
 				return result;
 			}
 
-			if (!doChecks()) {
-			if (pd.getStatus().ordinal() < Status.PAGATA.ordinal()) {
-				result.setError("Domanda non inviabile: " + domandaInfo.getIdDomanda() + " = " + pd.getStatus().toString());
-				return result;
-			}
+			if (doChecks()) {
+				if (pd.getStatus().ordinal() < Status.PAGATA.ordinal()) {
+					result.setError("Domanda non inviabile: " + domandaInfo.getIdDomanda() + " = " + pd.getStatus().toString());
+					return result;
+				}
 			}
 
 			if (pd.getStatus().ordinal() == Status.PAGATA.ordinal()) {
@@ -688,11 +982,15 @@ public class EPUController {
 						storage.updateStatus(domandaInfo.getIdDomanda(), Status.RIFIUTATA);
 						result.setResult("Rifiutata");
 					} else if (pr.containsKey("faultstring")) {
-						result.setError((String)pr.get("faultstring"));
+						String error = (String) pr.get("faultstring");
+						result.setError(error);
+						sendError("Adobe - approval  (RIFIUTATO)", null, error, domandaInfo.getUserIdentity(), "" + domandaInfo.getIdDomanda());
 					}
 
 				} catch (Exception e) {
 					log.error("Errore in protocollazione di " + domandaInfo);
+					e.printStackTrace();
+					sendError("Adobe - approval (RIFIUTATO)", e, null , domandaInfo.getUserIdentity(), "" + domandaInfo.getIdDomanda());
 					result.setException(e.getMessage());
 					return result;
 				}
@@ -706,8 +1004,6 @@ public class EPUController {
 
 		return result;
 	}
-
-	
 
 	private DomandaWSConsolidaOutput consolida(DomandaInfo domandaInfo) throws Exception {
 
@@ -802,10 +1098,11 @@ public class EPUController {
 
 		Pattern pattern = Pattern.compile("<dettaglio chiave=\"TOTALE\" calcolo=\"(.+?)\"/>");
 		Matcher matcher = pattern.matcher(rep);
+		Double dval = null;
 		if (matcher.find()) {
 			String val = matcher.group(1);
 			String val2 = val.replaceAll("[\\.]", "").replaceAll("[,]", ".");
-			Double dval = Double.parseDouble(val2) / 100;
+			dval = Double.parseDouble(val2) / 100;
 			rep = rep.replaceAll("<dettaglio chiave=\"TOTALE\" calcolo=\"" + val + "\"/>", "<dettaglio chiave=\"TOTALE\" calcolo=\"" + dval + "\"/>");
 		}
 
@@ -852,7 +1149,11 @@ public class EPUController {
 		String s2 = sb.toString();
 
 		Dichiarazioni d = (Dichiarazioni) u.unmarshal(new StringReader(s2));
-
+		if (dval != null) {
+			d.getDichiarazione().getStampaSchedaPunteggio().getAssegnazioneAlloggio().getDatiIdentificativiDomanda().setPunteggioTotale(dval.toString().replace(".", ","));
+		}
+//		d.getDichiarazione().getStampaSchedaPunteggio().getAssegnazioneAlloggio().get
+		
 		PraticaData pd = storage.getPratica(idDomanda);
 
 		if (pd.getEsenzione() != null && pd.getEsenzione().booleanValue()) {
@@ -931,7 +1232,7 @@ public class EPUController {
 
 	private String completeToken(String token, long idDomanda) {
 		PraticaData pd = storage.getPratica(idDomanda);
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		String authDate = sdf.format(new Date());
 		sdf = new SimpleDateFormat("HH:mm");
@@ -944,9 +1245,9 @@ public class EPUController {
 	private boolean doChecks() {
 		return TEST.equals(server) || PROD.equals(server);
 	}
-	
+
 	private boolean doFix() {
 		return TEST.equals(server) || DEV.equals(server);
-	}	
-	
+	}
+
 }
