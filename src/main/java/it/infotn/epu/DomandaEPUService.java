@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.1
  * 
  */
-@WebServiceClient(name = "DomandaEPUService", targetNamespace = "http://epu.infotn.it", wsdlLocation = "file:/C:/workspace-GIT/service.epu.web/src/main/resources/DomandaEPUService.wsdl")
+@WebServiceClient(name = "DomandaEPUService", targetNamespace = "http://epu.infotn.it", wsdlLocation = "https://epu-test.infotn.it/epu/DomandaEPUService?wsdl")
 public class DomandaEPUService
     extends Service
 {
