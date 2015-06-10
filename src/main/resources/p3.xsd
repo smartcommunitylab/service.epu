@@ -47,43 +47,7 @@
 											</xs:sequence>
 										</xs:complexType>
 									</xs:element>
-									<xs:element name="recapito">
-										<xs:complexType>
-											<xs:sequence>
-												<xs:element name="nominativo">
-													<xs:simpleType>
-														<xs:restriction base="xs:string"/>
-													</xs:simpleType>
-												</xs:element>
-												<xs:element name="comune">
-													<xs:simpleType>
-														<xs:restriction base="xs:string"/>
-													</xs:simpleType>
-												</xs:element>
-												<xs:element name="cap">
-													<xs:simpleType>
-														<xs:restriction base="xs:int"/>
-													</xs:simpleType>
-												</xs:element>
-												<xs:element name="altroTelefono">
-													<xs:simpleType>
-														<xs:restriction base="xs:long"/>
-													</xs:simpleType>
-												</xs:element>
-												<xs:element name="indirizzo">
-													<xs:simpleType>
-														<xs:restriction base="xs:string"/>
-													</xs:simpleType>
-												</xs:element>
-												<xs:element name="telefono">
-													<xs:simpleType>
-														<xs:restriction base="xs:string"/>
-													</xs:simpleType>
-												</xs:element>
-												<xs:element name="localita" type="xs:string"/>
-											</xs:sequence>
-										</xs:complexType>
-									</xs:element>
+									<xs:element name="recapito" type="type_recapito" />
 									<xs:element name="datiIdentificativiDomanda">
 										<xs:complexType>
 											<xs:sequence>
@@ -525,6 +489,7 @@
 				<xs:element name="data_temporaneo" type="xs:string" />
 				<xs:element name="tribunale_temporaneo" type="xs:string" />
 				<xs:element name="componenti" type="type_componente" maxOccurs="unbounded" />
+				<xs:element name="recapito" type="type_recapito" />
 			</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="type_periodo_residenza">
@@ -547,5 +512,18 @@
 			<xs:element name="dal" type="xs:string" />
 			<xs:element name="al" type="xs:string"/>
 		</xs:sequence>
-	</xs:complexType>	
+	</xs:complexType>
+	<xs:complexType name="type_recapito">
+		<xs:sequence>
+			<xs:element name="nominativo" type="xs:string" />
+			<xs:element name="indirizzo" type="xs:string" />
+			<xs:element name="cap" type="xs:string" />
+			<xs:element name="localita" type="xs:string" />
+			<xs:element name="comune" type="xs:string" />
+			<xs:element name="mail" type="xs:string" />
+			<xs:element name="telefono" type="xs:string" />
+			<xs:element name="altroTelefono" type="xs:string" />
+			<xs:element name="note" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>		
 </xs:schema>
