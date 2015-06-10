@@ -1,7 +1,5 @@
 package it.smartcampuslab.epu.storage;
 
-import it.infotn.epu.EdizioneFinanziataType;
-
 import java.util.Map;
 
 
@@ -18,7 +16,6 @@ public class PraticaData extends PagamentoInfo {
 	
 	protected boolean deleted = false;
 	
-//	protected EdizioneFinanziataType edizioneFinanziata;
 
 	public Integer getP3Id() {
 		return p3Id;
@@ -91,13 +88,5 @@ public class PraticaData extends PagamentoInfo {
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
-
-//	public EdizioneFinanziataType getEdizioneFinanziata() {
-//		return edizioneFinanziata;
-//	}
-//
-//	public void setEdizioneFinanziata(EdizioneFinanziataType edizioneFinanziata) {
-//		this.edizioneFinanziata = edizioneFinanziata;
-//	}
 
 }
