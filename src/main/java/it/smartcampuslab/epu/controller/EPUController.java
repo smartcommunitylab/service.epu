@@ -287,7 +287,6 @@ public class EPUController {
 			pd.setUserIdentity(wsInput.getUserIdentity());
 			pd.setData(System.currentTimeMillis());
 			pd.setEpuTime(pd.getData());
-//			pd.setEdizioneFinanziata(result.getDomanda().getEdizioneFinanziata());
 			
 			if (!storage.store(pd)) {
 				log.warn("Gia' presente: " + pd.getIdDomanda());
@@ -310,14 +309,10 @@ public class EPUController {
 	DomandaWSCaricaOutput getDatiPratica(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestParam long idDomanda, @RequestParam String idEnte, @RequestParam String userIdentity) {
 		try {
 			log.info("Get Pratica");
-			DomandaWSCaricaInput wsInput = new DomandaWSCaricaInput();
-			wsInput.setIdDomanda(idDomanda);
-			wsInput.setIdEnte(idEnte);
-			wsInput.setUserIdentity(userIdentity);
 
 			DomandaWSCaricaOutput result = null;
 			try {
-				result = epuHelper.getPort().carica(wsInput);
+				result = getDatiPratica(idDomanda, idEnte, userIdentity);
 			} catch (DomandaEpuFault_Exception e) {
 				String msg = e.getFaultInfo().getUserMessage();
 				log.error(msg);
@@ -338,7 +333,19 @@ public class EPUController {
 			return null;
 		}
 	}
+	
+	private DomandaWSCaricaOutput getDatiPratica(long idDomanda, String idEnte, String userIdentity) throws Exception {
+		DomandaWSCaricaInput wsInput = new DomandaWSCaricaInput();
+		wsInput.setIdDomanda(idDomanda);
+		wsInput.setIdEnte(idEnte);
+		wsInput.setUserIdentity(userIdentity);
 
+		DomandaWSCaricaOutput result = null;
+		result = epuHelper.getPort().carica(wsInput);
+
+		return result;
+	}
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/EliminaPratica")
 	public @ResponseBody
 	DomandaWSEliminaOutput elimina(HttpServletRequest request, HttpServletResponse response, HttpSession session, @RequestBody DomandaInfo domandaInfo) {
@@ -1053,31 +1060,37 @@ public class EPUController {
 			}
 
 			ElenchiOutput result = new ElenchiOutput();
-			for (AmbitoTerritorialeType att : at.getAmbitoTerritoriale()) {
-				ElenchiItem ei = new ElenchiItem();
-				ei.setDescrizione(att.getDescrizione());
-				ei.setIdObj(att.getIdObj());
-				result.getAmbitiTerritoriali().add(ei);
-			}
-			for (ComuneType ct : c.getComune()) {
-				ElenchiItem ei = new ElenchiItem();
-				ei.setDescrizione(ct.getDescrizione());
-				ei.setIdObj(ct.getIdObj());
-				result.getComuni().add(ei);
-			}
-
-			GregorianCalendar gregorianCalendar = new GregorianCalendar();
-			DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
-			XMLGregorianCalendar calendar = datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
-
-			for (EdizioneFinanziataType eft : ef.getEdizioneFinanziata()) {
-				XMLGregorianCalendar apertura = eft.getEdizione().getDataApertura();
-				XMLGregorianCalendar chiusura = eft.getEdizione().getDataChiusura();
-				if (calendar.compare(apertura) >= 0 && calendar.compare(chiusura) <= 0) {
+			if (at != null) {
+				for (AmbitoTerritorialeType att : at.getAmbitoTerritoriale()) {
 					ElenchiItem ei = new ElenchiItem();
-					ei.setDescrizione(eft.getEdizione().getStrumento().getDescrizione() + ", " + eft.getCategoria().toString().toLowerCase());
-					ei.setIdObj("" + eft.getIdObj());
-					result.getEdizioniFinanziate().add(ei);
+					ei.setDescrizione(att.getDescrizione());
+					ei.setIdObj(att.getIdObj());
+					result.getAmbitiTerritoriali().add(ei);
+				}
+			}
+			if (c != null) {
+				for (ComuneType ct : c.getComune()) {
+					ElenchiItem ei = new ElenchiItem();
+					ei.setDescrizione(ct.getDescrizione());
+					ei.setIdObj(ct.getIdObj());
+					result.getComuni().add(ei);
+				}
+			}
+
+			if (ef != null) {
+				GregorianCalendar gregorianCalendar = new GregorianCalendar();
+				DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+				XMLGregorianCalendar calendar = datatypeFactory.newXMLGregorianCalendar(gregorianCalendar);
+
+				for (EdizioneFinanziataType eft : ef.getEdizioneFinanziata()) {
+					XMLGregorianCalendar apertura = eft.getEdizione().getDataApertura();
+					XMLGregorianCalendar chiusura = eft.getEdizione().getDataChiusura();
+					if (calendar.compare(apertura) >= 0 && calendar.compare(chiusura) <= 0) {
+						ElenchiItem ei = new ElenchiItem();
+						ei.setDescrizione(eft.getEdizione().getStrumento().getDescrizione() + ", " + eft.getCategoria().toString().toLowerCase());
+						ei.setIdObj("" + eft.getIdObj());
+						result.getEdizioniFinanziate().add(ei);
+					}
 				}
 			}
 
@@ -1132,7 +1145,7 @@ public class EPUController {
 		Marshaller m1 = jc.createMarshaller();
 		m1.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		sw = new StringWriter();
-		// m1.marshal(autocertificazione, sw);
+
 		m1.marshal(new JAXBElement<TypeAutocertificazione>(new QName("uri", "local"), TypeAutocertificazione.class, autocertificazione), sw);
 
 		String s1 = sw.getBuffer().toString();
@@ -1152,7 +1165,9 @@ public class EPUController {
 		if (dval != null) {
 			d.getDichiarazione().getStampaSchedaPunteggio().getAssegnazioneAlloggio().getDatiIdentificativiDomanda().setPunteggioTotale(dval.toString().replace(".", ","));
 		}
-//		d.getDichiarazione().getStampaSchedaPunteggio().getAssegnazioneAlloggio().get
+
+		d.getDichiarazione().getStampaSchedaPunteggio().getAssegnazioneAlloggio().setRecapito(autocertificazione.getRecapito());
+		d.getDichiarazione().getAutocertificazione().setRecapito(null);
 		
 		PraticaData pd = storage.getPratica(idDomanda);
 
